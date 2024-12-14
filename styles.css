@@ -70,6 +70,11 @@ textarea {
     resize: vertical;
 }
 
+/* Report Player Section (hidden by default) */
+#report-player-section {
+    display: none;
+}
+
 button {
     background-color: #3a8dff;
     color: #fff;
@@ -86,6 +91,16 @@ button:hover {
     background-color: #3389e3;
 }
 
+/* Styling for file input */
+input[type="file"] {
+    padding: 10px;
+    background-color: #f4f7fb;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+/* Thank You Message */
 .thank-you-message {
     display: none;
     text-align: center;
