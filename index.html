@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Support App</h1>
+  
+  <form id="supportForm">
+    <label for="username">Rec Room Username:</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="issue">Issue Type:</label>
+    <select id="issue" name="issue" required>
+      <option value="question">Ask a Question</option>
+      <option value="ban-appeal">Ban Appeal</option>
+      <option value="staff-application">Staff Application</option>
+    </select>
+
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" required></textarea>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script src="app.js"></script>
+</body>
+</html>
