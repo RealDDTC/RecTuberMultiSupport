@@ -1,12 +1,17 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Get the 'Issue Type' select dropdown
-    const issueSelect = document.getElementById("issue");
+document.addEventListener('DOMContentLoaded', function () {
 
-    // Add event listener to the 'Issue Type' dropdown
-    issueSelect.addEventListener("change", function() {
-        // If "Report Player" is selected, redirect to the RecRoom support page
-        if (issueSelect.value === "Report Player (Redirect)") {
-            window.location.href = "https://recroom.zendesk.com/hc/en-us/requests/new"; // Redirect to RecRoom support page
-        }
+    const form = document.getElementById('support-form');
+    const thankYouMessage = document.getElementById('thank-you-message');
+    const reportPlayerLink = document.querySelector('.report-player-link');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+        form.style.display = 'none'; // Hide the form
+        thankYouMessage.style.display = 'block'; // Show the thank you message
+    });
+
+    // Optional: Add a listener to handle when a report player link is clicked, although it redirects by default.
+    reportPlayerLink.addEventListener('click', function () {
+        window.location.href = "https://recroom.zendesk.com/hc/en-us/requests/new";
     });
 });
