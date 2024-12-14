@@ -11,17 +11,22 @@
         <div class="support-form" id="support-form-container">
             <h1>Support Request</h1>
             <p class="subheading">Please fill out the form below, and our team will get back to you soon.</p>
+            
+            <!-- Form Start -->
             <form action="https://formspree.io/f/xkgnalkk" method="POST" id="support-form">
+                <!-- Rec Room Username -->
                 <div class="form-group">
                     <label for="username">Rec Room Username:</label>
                     <input type="text" id="username" name="username" required placeholder="Enter your username">
                 </div>
 
+                <!-- Email Address -->
                 <div class="form-group">
                     <label for="email">Your Email Address:</label>
                     <input type="email" id="email" name="_replyto" required placeholder="Enter your email">
                 </div>
 
+                <!-- Select Support Category -->
                 <div class="form-group">
                     <label for="category">Select Support Category:</label>
                     <select id="category" name="category" required>
@@ -32,29 +37,35 @@
                     </select>
                 </div>
 
+                <!-- Describe Your Issue -->
                 <div class="form-group">
                     <label for="issue">Describe Your Issue:</label>
                     <textarea id="issue" name="issue" rows="5" required placeholder="Provide details about the issue"></textarea>
                 </div>
 
+                <!-- Ban Appeal (visible only when selected) -->
                 <div class="form-group" id="ban-reason-group" style="display: none;">
                     <label for="ban-reason">Ban Appeal Details:</label>
                     <textarea id="ban-reason" name="ban-reason" rows="5" placeholder="Explain why you believe the ban should be lifted"></textarea>
                 </div>
 
+                <!-- Submit Button -->
                 <div class="form-group">
                     <input type="submit" value="Submit">
                 </div>
             </form>
+            <!-- Form End -->
+
         </div>
 
-        <!-- Thank you message -->
+        <!-- Thank You Message (hidden until form submission) -->
         <div class="thank-you-message" id="thank-you-message" style="display: none;">
             <h1>Thank you for contacting RecTuberMultiShow Support!</h1>
             <p>If the email address provided is correct, we'll get back to you as soon as possible.</p>
         </div>
     </div>
-    
+
+    <!-- Include JavaScript -->
     <script src="app.js"></script>
 </body>
 </html>
