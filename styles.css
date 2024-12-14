@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f1f1f1;
+    background-color: #f4f7fb;
     color: #333;
     padding: 40px 20px;
 }
@@ -17,6 +17,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    margin: 0;
 }
 
 .form-wrapper {
