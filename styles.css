@@ -1,63 +1,63 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+    text-align: center;
 }
 
 h1 {
-    text-align: center;
+    color: #007BFF;
     margin-top: 20px;
 }
 
 form {
-    margin: 20px auto;
-    max-width: 600px;
+    background-color: #ffffff;
     padding: 20px;
-    border: 1px solid #ccc;
+    margin: 20px;
     border-radius: 10px;
-    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    margin: 0 auto;
+    text-align: left;
 }
 
 label {
     display: block;
-    margin: 10px 0 5px;
+    margin-bottom: 8px;
 }
 
 input, select, textarea {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
 button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #007BFF;
     color: white;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
 
-/* Style for the report player link */
 .report-player-link {
-    text-align: center;
-    margin-top: auto; /* Pushes the link to the bottom */
-    padding-bottom: 20px; /* Adds space at the bottom */
+    margin-top: 20px;
+    font-size: 16px;
 }
 
 .report-player-link a {
     color: #007BFF;
     text-decoration: none;
-    font-weight: bold;
 }
 
 .report-player-link a:hover {
