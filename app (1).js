@@ -1,36 +1,20 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const issueDropdown = document.getElementById('issue');
-    const reportPlayerSection = document.getElementById('report-player-section');
-    const usernameField = document.getElementById('player-username'); // Report Player username field
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the 'Issue Type' select dropdown and the 'Report Player' section
+    const issueSelect = document.getElementById("issue");
+    const reportPlayerSection = document.getElementById("report-player-section");
 
-    // Toggle the visibility of the "Report Player" section based on dropdown selection
-    issueDropdown.addEventListener('change', function() {
-        const issueType = this.value;
-        if (issueType === 'Report Player') {
-            reportPlayerSection.style.display = 'block'; // Show the Report Player section
+    // Add event listener to the 'Issue Type' dropdown
+    issueSelect.addEventListener("change", function() {
+        // Check if the selected option is 'Report Player'
+        if (issueSelect.value === "Report Player") {
+            // Show the 'Report Player' section
+            reportPlayerSection.style.display = "block";
         } else {
-            reportPlayerSection.style.display = 'none'; // Hide the Report Player section
-            usernameField.value = ''; // Clear username field when section is hidden
+            // Hide the 'Report Player' section for other issue types
+            reportPlayerSection.style.display = "none";
         }
     });
 
-    // Handle form submission (e.g., thank you message)
-    const form = document.getElementById('support-form');
-    const thankYouMessage = document.getElementById('thank-you-message');
-
-    form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission
-
-        // Show the "Thank You" message
-        thankYouMessage.style.display = 'block';
-
-        // Reset the form fields after submission
-        form.reset();
-
-        // Scroll to the thank you message
-        window.scrollTo({
-            top: thankYouMessage.offsetTop,
-            behavior: 'smooth'
-        });
-    });
+    // Optional: Automatically hide the "Report Player" section on page load
+    reportPlayerSection.style.display = "none"; // Start with it hidden
 });
