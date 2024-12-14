@@ -1,94 +1,112 @@
-/* General Styles */
+/* Basic Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
 }
 
+/* Body Styling */
 body {
+    font-family: Arial, sans-serif;
     background-color: #f4f7fa;
-    color: #333;
-    font-size: 16px;
-    line-height: 1.6;
-}
-
-.container {
-    max-width: 600px;
-    margin: 0 auto;
     padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-header {
-    text-align: center;
+/* Container for Centering the Form */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Form Container */
+.support-form {
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Form Heading */
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Subheading Text */
+.subheading {
+    font-size: 16px;
+    color: #555;
     margin-bottom: 20px;
 }
 
-header h1 {
-    font-size: 2rem;
-    color: #2c3e50;
-}
-
-header p {
-    font-size: 1rem;
-    color: #7f8c8d;
-}
-
-/* Form Styles */
-form {
-    display: flex;
-    flex-direction: column;
-}
-
+/* Form Groups */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
-.form-group label {
-    font-weight: bold;
-    color: #2c3e50;
+/* Label Styling */
+label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
 }
 
-.form-group input, .form-group textarea {
+/* Input and Textarea Styles */
+input[type="text"], input[type="email"], textarea, select {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
     color: #333;
 }
 
-.form-group textarea {
-    resize: vertical;
+/* Focus Effect */
+input[type="text"]:focus, input[type="email"]:focus, textarea:focus, select:focus {
+    border-color: #4CAF50;
+    outline: none;
 }
 
-.form-group input[type="submit"] {
-    background-color: #3498db;
+/* Button Style */
+input[type="submit"] {
+    background-color: #4CAF50;
     color: white;
-    cursor: pointer;
     border: none;
-    font-size: 1rem;
-    transition: background-color 0.3s;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    width: 100%;
 }
 
-.form-group input[type="submit"]:hover {
-    background-color: #2980b9;
+input[type="submit"]:hover {
+    background-color: #45a049;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
+@media (max-width: 600px) {
+    .support-form {
+        width: 90%;
+        padding: 20px;
     }
 
-    header h1 {
-        font-size: 1.5rem;
+    h1 {
+        font-size: 20px;
     }
 
-    .form-group input, .form-group textarea {
-        font-size: 0.9rem;
+    .subheading {
+        font-size: 14px;
+    }
+
+    input[type="submit"] {
+        font-size: 14px;
     }
 }
