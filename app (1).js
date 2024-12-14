@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // Make the Player's Username field required
             playerUsernameInput.required = true;
         } else {
-            // Hide the 'Report Player' section and the new prompt if other option is selected
+            // Hide the 'Report Player' section and the new prompt if another option is selected
             reportPlayerSection.style.display = "none";
             reportPlayerPrompt.style.display = "none";
             // Remove the required attribute from Player's Username field
