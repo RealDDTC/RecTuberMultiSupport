@@ -13,7 +13,7 @@
             <h1>Contact Support</h1>
             <p>Let us know how we can help, and we’ll get back to you as soon as possible.</p>
 
-            <form action="https://formspree.io/f/xkgnalkk" method="POST" id="support-form">
+            <form action="https://formspree.io/f/xkgnalkk" method="POST" id="support-form" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="username">Rec Room Username:</label>
                     <input type="text" id="username" name="username" required placeholder="Your Rec Room username">
@@ -31,6 +31,7 @@
                         <option value="bug-report">Bug Report</option>
                         <option value="staff-application">Staff Application</option>
                         <option value="ban-appeal">Ban Appeal</option>
+                        <option value="report-player">Report Player</option>
                     </select>
                 </div>
 
@@ -42,6 +43,16 @@
                 <div class="form-group" id="ban-reason-group" style="display: none;">
                     <label for="ban-reason">Ban Appeal Details:</label>
                     <textarea id="ban-reason" name="ban-reason" rows="4" placeholder="Please provide details for your ban appeal"></textarea>
+                </div>
+
+                <div class="form-group" id="player-username-group" style="display: none;">
+                    <label for="player-username">What was the player's username?</label>
+                    <input type="text" id="player-username" name="player-username" placeholder="Enter the player's username" />
+                </div>
+
+                <div class="form-group">
+                    <label for="file">Attach a File (Optional):</label>
+                    <input type="file" id="file" name="file" />
                 </div>
 
                 <button type="submit">Submit</button>
