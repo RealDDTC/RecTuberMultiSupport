@@ -8,57 +8,40 @@
 </head>
 <body>
 
-<div class="container">
-    <div class="form-wrapper">
-        <h1>Contact RecTuberMultiShow Support</h1>
-        <p>Fill out the form below to get support. If you are reporting a player, please use the Report Player button.</p>
-        
-        <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST">
-            <!-- Basic Support Fields -->
-            <div class="form-group">
-                <label for="name">Your Name</label>
-                <input type="text" id="name" name="name" required>
-            </div>
+    <h1>RecTuberMultiShow Support</h1>
 
-            <div class="form-group">
-                <label for="email">Your Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
+    <!-- Support Form -->
+    <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST">
+        <label for="email">Your Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
 
-            <div class="form-group">
-                <label for="issue">Issue Type</label>
-                <select id="issue" name="issue" required>
-                    <option value="Technical Support">Technical Support</option>
-                    <option value="General Support">General Support</option>
-                    <option value="Bug Report">Bug Report</option>
-                    <option value="Staff Application">Staff Application</option>
-                    <option value="Ban Appeal">Ban Appeal</option>
-                    <option value="Report Player">Report Player</option>
-                </select>
-            </div>
+        <label for="issue">Issue Type:</label>
+        <select id="issue" name="issue" required>
+            <option value="Technical Support">Technical Support</option>
+            <option value="General Support">General Support</option>
+            <option value="Bug Report">Bug Report</option>
+            <option value="Report Player">Report Player</option>
+            <option value="Staff Application">Staff Application</option>
+            <option value="Ban Appeal">Ban Appeal</option>
+        </select><br><br>
 
-            <!-- Report Player Section -->
-            <div id="report-player-section" class="form-group">
-                <label for="player-username">Player's Username</label>
-                <input type="text" id="player-username" name="player-username" placeholder="Enter the player's username">
-            </div>
-
-            <!-- File Input (Insert File) -->
-            <div class="form-group">
-                <label for="file">Insert File (Optional)</label>
-                <input type="file" id="file" name="file">
-            </div>
-
-            <button type="submit">Submit</button>
-        </form>
-
-        <div class="thank-you-message" id="thank-you-message">
-            <h2>Thank You for Contacting RecTuberMultiShow Support!</h2>
-            <p>If the email address is provided correctly, we’ll get back to you as soon as possible.</p>
+        <!-- Report Player Section, initially hidden -->
+        <div id="report-player-section" style="display: none;">
+            <label for="player-username">Player's Username:</label>
+            <input type="text" id="player-username" name="player-username"><br><br>
         </div>
-    </div>
-</div>
 
-<script src="app.js"></script>
+        <label for="message">Your Message:</label><br>
+        <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Thank You Message -->
+    <div id="thank-you-message" style="display: none;">
+        <p>Thank you for contacting RecTuberMultiShow Support. If the email address is provided and correct, we'll get back to you as soon as possible.</p>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
