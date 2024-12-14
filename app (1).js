@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Get references to the form and the thank you message elements
     const form = document.getElementById('support-form');
-    const supportFormContainer = document.getElementById('support-form-container');
     const thankYouMessage = document.getElementById('thank-you-message');
-    
-    // Handle the category change for Ban Appeal visibility
-    document.getElementById('category').addEventListener('change', function() {
-        const category = this.value;
-        const banReasonGroup = document.getElementById('ban-reason-group');
+    const supportFormContainer = document.querySelector('.form-container');
 
-        if (category === 'ban-appeal') {
+    // Handle the category change for Ban Appeal visibility
+    const categorySelect = document.getElementById('category');
+    const banReasonGroup = document.getElementById('ban-reason-group');
+
+    categorySelect.addEventListener('change', function() {
+        if (this.value === 'ban-appeal') {
             banReasonGroup.style.display = 'block'; // Show the Ban Appeal textarea
         } else {
             banReasonGroup.style.display = 'none'; // Hide the Ban Appeal textarea
