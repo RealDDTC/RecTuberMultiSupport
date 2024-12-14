@@ -8,16 +8,17 @@
 </head>
 <body>
 
+    <!-- Main Container -->
     <div class="container">
         <h1>RecTuberMultiShow Support</h1>
-
+        
         <!-- Support Form -->
         <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST">
             
-            <!-- Email Address Input -->
+            <!-- Email Field -->
             <label for="email">Your Email:</label>
             <input type="email" id="email" name="email" required><br><br>
-
+            
             <!-- Issue Type Dropdown -->
             <label for="issue">Issue Type:</label>
             <select id="issue" name="issue" required>
@@ -29,22 +30,22 @@
                 <option value="Ban Appeal">Ban Appeal</option>
             </select><br><br>
 
-            <!-- Report Player Section (hidden initially) -->
-            <div id="report-player-section" style="display: none;">
+            <!-- Report Player Section (Initially Hidden) -->
+            <div id="report-player-section" class="hidden">
                 <label for="player-username">Player's Username:</label>
                 <input type="text" id="player-username" name="player-username"><br><br>
             </div>
 
-            <!-- Message Input -->
+            <!-- Message Section -->
             <label for="message">Your Message:</label><br>
             <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
-
+            
             <!-- Submit Button -->
             <button type="submit">Submit</button>
         </form>
 
-        <!-- Thank You Message (hidden initially) -->
-        <div id="thank-you-message" style="display: none;">
+        <!-- Thank You Message (Initially Hidden) -->
+        <div id="thank-you-message" class="hidden">
             <p>Thank you for contacting RecTuberMultiShow Support. If the email address is provided and correct, we'll get back to you as soon as possible.</p>
         </div>
     </div>
