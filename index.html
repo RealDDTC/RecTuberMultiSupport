@@ -1,51 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RecTuberMultiShow Support</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the 'Issue Type' select dropdown and the 'Report Player' section
+    const issueSelect = document.getElementById("issue");
+    const reportPlayerSection = document.getElementById("report-player-section");
+    const playerUsernameInput = document.getElementById("player-username");
+    const reportPlayerPrompt = document.getElementById("report-player-prompt");
 
-    <h1>RecTuberMultiShow Support</h1>
+    // Add event listener to the 'Issue Type' dropdown
+    issueSelect.addEventListener("change", function() {
+        // Check if the selected option is 'Report Player'
+        if (issueSelect.value === "Report Player") {
+            // Show the 'Report Player' section and the new prompt
+            reportPlayerSection.style.display = "block";
+            reportPlayerPrompt.style.display = "block";
+            // Make the Player's Username field required
+            playerUsernameInput.required = true;
+        } else {
+            // Hide the 'Report Player' section and the new prompt if another option is selected
+            reportPlayerSection.style.display = "none";
+            reportPlayerPrompt.style.display = "none";
+            // Remove the required attribute from Player's Username field
+            playerUsernameInput.required = false;
+        }
+    });
 
-    <!-- Support Form -->
-    <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST" enctype="multipart/form-data">
-        <label for="email">Your Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-
-        <label for="issue">Issue Type:</label>
-        <select id="issue" name="issue" required>
-            <option value="Technical Support">Technical Support</option>
-            <option value="General Support">General Support</option>
-            <option value="Bug Report">Bug Report</option>
-            <option value="Report Player">Report Player</option>
-            <option value="Staff Application">Staff Application</option>
-            <option value="Ban Appeal">Ban Appeal</option>
-        </select><br><br>
-
-        <!-- Report Player Section, initially hidden -->
-        <div id="report-player-section" style="display: none;">
-            <label for="player-username" id="report-player-prompt" style="display: none;">What is the player's username?</label>
-            <input type="text" id="player-username" name="player-username"><br><br>
-        </div>
-
-        <!-- File Input for Attachments -->
-        <label for="file-upload">Attach a file (optional):</label>
-        <input type="file" id="file-upload" name="file-upload"><br><br>
-
-        <label for="message">Your Message:</label><br>
-        <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
-
-        <button type="submit">Submit</button>
-    </form>
-
-    <!-- Thank You Message -->
-    <div id="thank-you-message" style="display: none;">
-        <p>Thank you for contacting RecTuberMultiShow Support. If the email address is provided and correct, we'll get back to you as soon as possible.</p>
-    </div>
-
-    <script src="app.js"></script>
-</body>
-</html>
+    // Initially hide the "Report Player" section on page load
+    reportPlayerSection.style.display = "none";
+    reportPlayerPrompt.style.display = "none";
+    playerUsernameInput.required = false;
+});
