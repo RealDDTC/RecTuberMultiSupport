@@ -4,13 +4,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const formWrapper = document.querySelector('.form-wrapper');
     const categorySelect = document.getElementById('category');
     const banReasonGroup = document.getElementById('ban-reason-group');
+    const playerUsernameGroup = document.getElementById('player-username-group');
+    const fileInput = document.getElementById('file');
 
-    // Handle category selection and show/hide ban appeal section
+    // Handle category selection and show/hide dynamic fields
     categorySelect.addEventListener('change', function () {
         if (this.value === 'ban-appeal') {
             banReasonGroup.style.display = 'block';
+            playerUsernameGroup.style.display = 'none';
+        } else if (this.value === 'report-player') {
+            playerUsernameGroup.style.display = 'block';
+            banReasonGroup.style.display = 'none';
         } else {
             banReasonGroup.style.display = 'none';
+            playerUsernameGroup.style.display = 'none';
         }
     });
 
