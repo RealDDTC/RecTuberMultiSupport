@@ -1,41 +1,22 @@
-// Wait for the DOM to load
-document.addEventListener('DOMContentLoaded', function () {
-    // Select the form element
-    const form = document.getElementById('support-form');
+document.getElementById('category').addEventListener('change', function() {
+    var category = this.value;
+    var banReasonGroup = document.getElementById('ban-reason-group');
 
-    // Listen for form submission
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();  // Prevent default form submission behavior
+    if (category === 'ban-appeal') {
+        banReasonGroup.style.display = 'block'; // Show the Ban Appeal textarea
+    } else {
+        banReasonGroup.style.display = 'none'; // Hide the Ban Appeal textarea
+    }
+});
 
-        // Get the form data
-        const formData = new FormData(form);
-
-        // Show a loading message
-        const submitButton = form.querySelector('input[type="submit"]');
-        submitButton.value = 'Sending...';
-        submitButton.disabled = true;
-
-        // Send the form data to Formspree
-        fetch('https://formspree.io/f/xkgnalkk', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (response.ok) {
-                // Success message
-                alert('Your request has been submitted successfully!');
-                form.reset();
-            } else {
-                // Error message
-                alert('There was an error, please try again.');
-            }
-        })
-        .catch(error => {
-            alert('There was an error, please try again.');
-        })
-        .finally(() => {
-            submitButton.value = 'Submit';
-            submitButton.disabled = false;
-        });
-    });
+// Handle form submission
+document.getElementById('support-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form from submitting immediately
+    
+    // Show the thank you message
+    document.getElementById('support-form-container').style.display = 'none';
+    document.getElementById('thank-you-message').style.display = 'block';
+    
+    // Actually submit the form via Formspree
+    this.submit();
 });
