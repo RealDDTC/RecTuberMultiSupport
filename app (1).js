@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Get the 'Issue Type' select dropdown and the 'Report Player' section
     const issueSelect = document.getElementById("issue");
     const reportPlayerSection = document.getElementById("report-player-section");
+    const playerUsernameInput = document.getElementById("player-username");
 
     // Add event listener to the 'Issue Type' dropdown
     issueSelect.addEventListener("change", function() {
@@ -9,12 +10,17 @@ document.addEventListener("DOMContentLoaded", function() {
         if (issueSelect.value === "Report Player") {
             // Show the 'Report Player' section
             reportPlayerSection.style.display = "block";
+            // Make the Player's Username field required
+            playerUsernameInput.required = true;
         } else {
-            // Hide it if the selected issue type is not 'Report Player'
+            // Hide the 'Report Player' section if other option is selected
             reportPlayerSection.style.display = "none";
+            // Remove the required attribute from Player's Username field
+            playerUsernameInput.required = false;
         }
     });
 
-    // Optional: Automatically hide the "Report Player" section when the page loads
-    reportPlayerSection.style.display = "none"; // Hide on page load
+    // Initially hide the "Report Player" section on page load
+    reportPlayerSection.style.display = "none";
+    playerUsernameInput.required = false;
 });
