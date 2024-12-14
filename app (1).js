@@ -10,11 +10,11 @@ document.addEventListener("DOMContentLoaded", function() {
             // Show the 'Report Player' section
             reportPlayerSection.style.display = "block";
         } else {
-            // Hide the 'Report Player' section for other issue types
+            // Hide it if the selected issue type is not 'Report Player'
             reportPlayerSection.style.display = "none";
         }
     });
 
-    // Optional: Automatically hide the "Report Player" section on page load
-    reportPlayerSection.style.display = "none"; // Start with it hidden
+    // Optional: Automatically hide the "Report Player" section when the page loads
+    reportPlayerSection.style.display = "none"; // Hide on page load
 });
