@@ -1,45 +1,42 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Get references to the form and the thank you message elements
     const form = document.getElementById('support-form');
     const thankYouMessage = document.getElementById('thank-you-message');
-    const supportFormContainer = document.querySelector('.form-container');
-
-    // Handle the category change for Ban Appeal visibility
+    const formWrapper = document.querySelector('.form-wrapper');
     const categorySelect = document.getElementById('category');
     const banReasonGroup = document.getElementById('ban-reason-group');
 
-    categorySelect.addEventListener('change', function() {
+    // Handle category selection and show/hide ban appeal section
+    categorySelect.addEventListener('change', function () {
         if (this.value === 'ban-appeal') {
-            banReasonGroup.style.display = 'block'; // Show the Ban Appeal textarea
+            banReasonGroup.style.display = 'block';
         } else {
-            banReasonGroup.style.display = 'none'; // Hide the Ban Appeal textarea
+            banReasonGroup.style.display = 'none';
         }
     });
 
     // Handle form submission
-    form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent the form from submitting immediately
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
 
-        // Show the thank you message
-        supportFormContainer.style.display = 'none';
+        // Show thank you message and hide form
+        formWrapper.style.display = 'none';
         thankYouMessage.style.display = 'block';
 
-        // Submit the form via Formspree
+        // Submit form data to Formspree
         const formData = new FormData(form);
-
         fetch(form.action, {
             method: 'POST',
             body: formData,
         })
         .then(response => {
             if (response.ok) {
-                console.log("Form successfully submitted!");
+                console.log('Form successfully submitted');
             } else {
-                console.error("Form submission failed");
+                console.error('Error in form submission');
             }
         })
         .catch(error => {
-            console.error("Error submitting the form: ", error);
+            console.error('Error submitting form: ', error);
         });
     });
 });
