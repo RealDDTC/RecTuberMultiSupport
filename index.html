@@ -11,7 +11,7 @@
     <h1>RecTuberMultiShow Support</h1>
 
     <!-- Support Form -->
-    <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST">
+    <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST" enctype="multipart/form-data">
         <label for="email">Your Email:</label>
         <input type="email" id="email" name="email" required><br><br>
 
@@ -30,6 +30,10 @@
             <label for="player-username" id="report-player-prompt" style="display: none;">What is the player's username?</label>
             <input type="text" id="player-username" name="player-username"><br><br>
         </div>
+
+        <!-- File Input for Attachments -->
+        <label for="file-upload">Attach a file (optional):</label>
+        <input type="file" id="file-upload" name="file-upload"><br><br>
 
         <label for="message">Your Message:</label><br>
         <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
