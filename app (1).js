@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle the visibility of the "Report Player" section
     const issueDropdown = document.getElementById('issue');
     const reportPlayerSection = document.getElementById('report-player-section');
+    const usernameField = document.getElementById('player-username'); // Username input field for Report Player
 
     issueDropdown.addEventListener('change', function() {
         const issueType = this.value;
@@ -9,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
             reportPlayerSection.style.display = 'block'; // Show the Report Player section
         } else {
             reportPlayerSection.style.display = 'none'; // Hide the Report Player section
+            usernameField.value = ''; // Reset the username field when section is hidden
         }
     });
 
