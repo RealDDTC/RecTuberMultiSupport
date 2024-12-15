@@ -30,9 +30,9 @@
             <option value="Ban Appeal">Ban Appeal</option>
         </select><br><br>
 
-        <!-- File Input for Attachments -->
-        <label for="file-upload">Attach a file (optional):</label>
-        <input type="file" id="file-upload" name="file-upload"><br><br>
+        <!-- File Input for Attachments (Supports multiple files) -->
+        <label for="file-upload">Attach files (optional):</label>
+        <input type="file" id="file-upload" name="file-upload[]" multiple><br><br>
 
         <label for="message">Your Message:</label><br>
         <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
