@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RecTuberMultiShow Support</title>
     <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script> <!-- Linking the external JavaScript file -->
     <style>
         /* Basic Zendesk-style layout */
         body {
@@ -75,12 +76,6 @@
             text-decoration: underline;
         }
 
-        /* Loading spinner style */
-        #loading {
-            display: none;
-            text-align: center;
-        }
-
         @media (min-width: 1024px) {
             .support-container {
                 padding: 40px;
@@ -99,12 +94,12 @@
             <!-- Email Field -->
             <label for="email">Your Email:</label>
             <input type="email" id="email" name="email" required>
-            <p id="email-error" style="color:red; display:none;">Please enter a valid email address.</p>
+            <div id="email-error" style="color: red; display: none;">Please enter a valid email address.</div>
 
             <!-- Rec Room Username -->
             <label for="username">Rec Room Username (include @ symbol):</label>
             <input type="text" id="username" name="username" pattern="@.*" title="Must start with @" required>
-            <p id="username-error" style="color:red; display:none;">Username must start with @.</p>
+            <div id="username-error" style="color: red; display: none;">Username must start with '@'.</div>
 
             <!-- Issue Type -->
             <label for="issue">Issue Type:</label>
@@ -137,11 +132,8 @@
             <button type="submit">Submit</button>
         </form>
 
-        <!-- Loading Spinner -->
-        <div id="loading">
-            <p>Submitting...</p>
-            <img src="https://i.gifer.com/VAyR.gif" alt="loading">
-        </div>
+        <!-- Loading Message -->
+        <div id="loading" style="display: none;">Submitting your request...</div>
 
         <!-- Thank You Message -->
         <div id="thank-you-message" class="thank-you-message">
@@ -150,76 +142,9 @@
 
         <!-- Support Links -->
         <div class="support-links">
-            <p>For FAQs and more help, visit our <a href="https://example.com/help-center">Help Center</a>.</p>
+            <p>For FAQs and more help, visit our <a href="#">Help Center</a>.</p>
             <p>To report a player, <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank">click here</a>.</p>
         </div>
     </div>
-
-    <script>
-        // JavaScript to handle form submission
-        const form = document.getElementById("support-form");
-        const thankYouMessage = document.getElementById("thank-you-message");
-        const loadingMessage = document.getElementById("loading");
-        const emailField = document.getElementById("email");
-        const usernameField = document.getElementById("username");
-
-        form.addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            // Show loading spinner
-            loadingMessage.style.display = "block";
-
-            const formData = new FormData(form);
-
-            fetch(form.action, {
-                method: form.method,
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                loadingMessage.style.display = "none";  // Hide the spinner
-
-                if (response.ok) {
-                    form.reset();
-                    thankYouMessage.style.display = "block";
-                    setTimeout(() => {
-                        thankYouMessage.style.display = "none";
-                    }, 5000); // Hide after 5 seconds
-                } else {
-                    alert("There was an error submitting the form. Please try again later.");
-                }
-            })
-            .catch(error => {
-                loadingMessage.style.display = "none";  // Hide the spinner
-                console.error("Error:", error);
-                alert("An unexpected error occurred. Please try again.");
-            });
-        });
-
-        // Real-time validation for email
-        emailField.addEventListener("input", function() {
-            const email = this.value;
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            const emailError = document.getElementById("email-error");
-            if (!email.match(emailPattern)) {
-                emailError.style.display = "block";
-            } else {
-                emailError.style.display = "none";
-            }
-        });
-
-        // Real-time validation for username
-        usernameField.addEventListener("input", function() {
-            const username = this.value;
-            const usernameError = document.getElementById("username-error");
-            if (!username.startsWith("@")) {
-                usernameError.style.display = "block";
-            } else {
-                usernameError.style.display = "none";
-            }
-        });
-    </script>
 </body>
 </html>
