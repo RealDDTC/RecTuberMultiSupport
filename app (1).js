@@ -4,41 +4,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const username  = form.elements['username'];
   const submitBtn = form.querySelector('button[type="submit"]');
   const loading   = document.getElementById('loading');
-  const thanks    = document.getElementById('thank-you-message');
+  const thankYou  = document.getElementById('thank-you');
 
-  // Show/hide by toggling .visible
+  // Toggle visibility via .visible
   const toggle = (el, show) => el.classList.toggle('visible', show);
 
-  // Validation rules
-  const rules = {
-    email:    v => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(v),
-    username: v => /^@.+/.test(v),
-  };
+  // Validation regexes
+  const isValidEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const isValidUser  = v => /^@.+/.test(v);
 
-  // Debounced real-time validation
-  const attachValidation = (name) => {
-    const field = form.elements[name];
-    const error = document.getElementById(`${name}-error`);
+  // Debounced validation
+  function attachValidation(field, validator, errorEl) {
     let timer;
     field.addEventListener('input', () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
-        const valid = rules[name](field.value.trim());
-        toggle(error, !valid);
+        const valid = validator(field.value.trim());
+        toggle(errorEl, !valid);
         field.setAttribute('aria-invalid', !valid);
         checkForm();
       }, 300);
     });
-  };
+  }
 
-  // Enable submit only when all valid
-  const checkForm = () => {
-    const ok = Object.keys(rules)
-      .every(name => rules[name](form.elements[name].value.trim()));
+  // Enable submit only when valid
+  function checkForm() {
+    const ok = isValidEmail(email.value.trim())
+            && isValidUser(username.value.trim())
+            && form.elements['issue'].value
+            && form.elements['priority'].value
+            && form.elements['message'].value.trim();
     submitBtn.disabled = !ok;
-  };
+  }
 
-  // Handle submission
+  // Handle submit
   form.addEventListener('submit', async e => {
     e.preventDefault();
     toggle(loading, true);
@@ -51,25 +50,24 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: { 'Accept': 'application/json' }
       });
       toggle(loading, false);
-
       if (res.ok) {
         form.reset();
-        toggle(thanks, true);
-        setTimeout(() => toggle(thanks, false), 5000);
+        toggle(thankYou, true);
+        setTimeout(() => toggle(thankYou, false), 5000);
       } else {
-        alert('Error submitting form—please try again later.');
+        alert('Submission error—please try again later.');
       }
     } catch (err) {
       console.error(err);
       toggle(loading, false);
-      alert('Unexpected error—please try again.');
+      alert('An unexpected error occurred.');
     } finally {
       checkForm();
     }
   });
 
-  // Initialize
-  attachValidation('email');
-  attachValidation('username');
+  // initialize
+  attachValidation(email, isValidEmail, document.getElementById('email-error'));
+  attachValidation(username, isValidUser, document.getElementById('username-error'));
   checkForm();
 });
