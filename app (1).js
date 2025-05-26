@@ -1,71 +1,84 @@
-// Real-time email validation
-const emailField = document.getElementById("email");
-const emailError = document.getElementById("email-error");
+// script.js
 
-emailField.addEventListener("input", function() {
-    const email = emailField.value;
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!email.match(emailPattern)) {
-        emailError.style.display = "block";
-    } else {
-        emailError.style.display = "none";
-    }
-});
+document.addEventListener('DOMContentLoaded', () => {
+  // Cache DOM elements
+  const form         = document.getElementById('support-form');
+  const emailField   = form.elements['email'];
+  const userField    = form.elements['username'];
+  const submitBtn    = form.querySelector('button[type="submit"]');
+  const loadingEl    = document.getElementById('loading');
+  const thanksEl     = document.getElementById('thank-you-message');
 
-// Real-time username validation
-const usernameField = document.getElementById("username");
-const usernameError = document.getElementById("username-error");
+  // Utility: show/hide element by toggling a class
+  const toggle = (el, show) => {
+    el.classList.toggle('visible', show);
+  };
 
-usernameField.addEventListener("input", function() {
-    const username = usernameField.value;
-    if (!username.startsWith("@")) {
-        usernameError.style.display = "block";
-    } else {
-        usernameError.style.display = "none";
-    }
-});
+  // Validation functions
+  const validators = {
+    email: (value) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value),
+    username: (value) => /^@.+/.test(value),
+  };
 
-// Form submission handling
-const form = document.getElementById("support-form");
-const thankYouMessage = document.getElementById("thank-you-message");
-const loadingMessage = document.getElementById("loading");
+  // Attach real-time validation with simple debounce
+  const attachValidation = (fieldName) => {
+    const field = form.elements[fieldName];
+    const error = document.getElementById(`${fieldName}-error`);
+    let timeoutId;
 
-form.addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent the default form submission
-
-    // Show the loading spinner
-    loadingMessage.style.display = "block";
-
-    // Create FormData from the form
-    const formData = new FormData(form);
-
-    // Send the form data using fetch
-    fetch(form.action, {
-        method: form.method,
-        body: formData,
-        headers: {
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        loadingMessage.style.display = "none";  // Hide the loading spinner
-
-        if (response.ok) {
-            // Reset the form and display the thank-you message
-            form.reset();
-            thankYouMessage.style.display = "block";
-
-            // Hide the thank-you message after 5 seconds
-            setTimeout(() => {
-                thankYouMessage.style.display = "none";
-            }, 5000);
-        } else {
-            alert("There was an error submitting the form. Please try again later.");
-        }
-    })
-    .catch(error => {
-        loadingMessage.style.display = "none";  // Hide the loading spinner
-        console.error("Error:", error);
-        alert("An unexpected error occurred. Please try again.");
+    field.addEventListener('input', () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        const valid = validators[fieldName](field.value.trim());
+        toggle(error, !valid);
+        field.setAttribute('aria-invalid', !valid);
+        checkFormValidity();
+      }, 300);
     });
+  };
+
+  // Disable submit until all fields pass validation
+  const checkFormValidity = () => {
+    const allValid = Object.keys(validators).every(name =>
+      validators[name](form.elements[name].value.trim())
+    );
+    submitBtn.disabled = !allValid;
+  };
+
+  // Form submission handler
+  const handleSubmit = async (evt) => {
+    evt.preventDefault();
+    toggle(loadingEl, true);
+    submitBtn.disabled = true;
+
+    try {
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      toggle(loadingEl, false);
+
+      if (response.ok) {
+        form.reset();
+        toggle(thanksEl, true);
+        setTimeout(() => toggle(thanksEl, false), 5000);
+      } else {
+        alert('Error submitting form — please try again later.');
+      }
+    } catch (err) {
+      toggle(loadingEl, false);
+      console.error(err);
+      alert('Unexpected error — please try again.');
+    } finally {
+      checkFormValidity();
+    }
+  };
+
+  // Initialization
+  attachValidation('email');
+  attachValidation('username');
+  form.addEventListener('submit', handleSubmit);
+  checkFormValidity();
 });
