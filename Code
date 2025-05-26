@@ -1,0 +1,109 @@
+/* Base resets */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body & container */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f6f7;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+}
+.support-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  max-width: 800px;
+  width: 90%;
+}
+
+/* Headings */
+h1 {
+  color: #007BFF;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* Form & fields */
+form {
+  text-align: left;
+}
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+input, select, textarea, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+textarea {
+  resize: vertical;
+}
+
+/* Buttons */
+button {
+  background-color: #007BFF;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Error & status messages hidden by default */
+.error-message,
+.status-message {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.2s ease, max-height 0.2s ease;
+}
+/* Show when .visible */
+.visible {
+  opacity: 1 !important;
+  max-height: 100px !important;
+}
+
+/* Link styles */
+.support-links {
+  margin-top: 25px;
+  font-size: 15px;
+}
+.support-links a {
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: bold;
+}
+.support-links a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .support-container { padding: 15px; }
+  h1 { font-size: 24px; }
+}
+@media (max-width: 480px) {
+  h1 { font-size: 22px; }
+  button { font-size: 16px; }
+}
