@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener('DOMContentLoaded', () => {
   const form      = document.getElementById('support-form');
   const email     = form.elements['email'];
@@ -7,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loading   = document.getElementById('loading');
   const thanks    = document.getElementById('thank-you-message');
 
-  // Simple show/hide via CSS class
+  // Toggle visibility
   const toggle = (el, show) => el.classList.toggle('visible', show);
 
   // Validation rules
@@ -16,16 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
     username: v => /^@.+/.test(v),
   };
 
-  // Debounced validation
-  const attachValidation = (fieldName) => {
-    const field = form.elements[fieldName];
-    const error = document.getElementById(`${fieldName}-error`);
+  // Attach real-time, debounced validation
+  const attachValidation = (name) => {
+    const field = form.elements[name];
+    const error = document.getElementById(`${name}-error`);
     let timer;
-
     field.addEventListener('input', () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
-        const valid = rules[fieldName](field.value.trim());
+        const valid = rules[name](field.value.trim());
         toggle(error, !valid);
         field.setAttribute('aria-invalid', !valid);
         checkForm();
@@ -33,15 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Enable submit when all valid
+  // Enable submit only when valid
   const checkForm = () => {
-    const ok = Object.keys(rules).every(name =>
-      rules[name](form.elements[name].value.trim())
-    );
-    submitBtn.disabled = !ok;
+    const allValid = Object.keys(rules)
+      .every(name => rules[name](form.elements[name].value.trim()));
+    submitBtn.disabled = !allValid;
   };
 
-  // Handle submission
+  // Handle form submission
   form.addEventListener('submit', async e => {
     e.preventDefault();
     toggle(loading, true);
@@ -71,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Init
+  // Initialize
   attachValidation('email');
   attachValidation('username');
   checkForm();
