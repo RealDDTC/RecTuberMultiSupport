@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loading   = document.getElementById('loading');
   const thanks    = document.getElementById('thank-you-message');
 
-  // Toggle visibility
+  // Show/hide by toggling .visible
   const toggle = (el, show) => el.classList.toggle('visible', show);
 
   // Validation rules
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     username: v => /^@.+/.test(v),
   };
 
-  // Attach real-time, debounced validation
+  // Debounced real-time validation
   const attachValidation = (name) => {
     const field = form.elements[name];
     const error = document.getElementById(`${name}-error`);
@@ -31,14 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Enable submit only when valid
+  // Enable submit only when all valid
   const checkForm = () => {
-    const allValid = Object.keys(rules)
+    const ok = Object.keys(rules)
       .every(name => rules[name](form.elements[name].value.trim()));
-    submitBtn.disabled = !allValid;
+    submitBtn.disabled = !ok;
   };
 
-  // Handle form submission
+  // Handle submission
   form.addEventListener('submit', async e => {
     e.preventDefault();
     toggle(loading, true);
