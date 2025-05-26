@@ -1,84 +1,78 @@
 // script.js
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Cache DOM elements
-  const form         = document.getElementById('support-form');
-  const emailField   = form.elements['email'];
-  const userField    = form.elements['username'];
-  const submitBtn    = form.querySelector('button[type="submit"]');
-  const loadingEl    = document.getElementById('loading');
-  const thanksEl     = document.getElementById('thank-you-message');
+  const form      = document.getElementById('support-form');
+  const email     = form.elements['email'];
+  const username  = form.elements['username'];
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const loading   = document.getElementById('loading');
+  const thanks    = document.getElementById('thank-you-message');
 
-  // Utility: show/hide element by toggling a class
-  const toggle = (el, show) => {
-    el.classList.toggle('visible', show);
+  // Simple show/hide via CSS class
+  const toggle = (el, show) => el.classList.toggle('visible', show);
+
+  // Validation rules
+  const rules = {
+    email:    v => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(v),
+    username: v => /^@.+/.test(v),
   };
 
-  // Validation functions
-  const validators = {
-    email: (value) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value),
-    username: (value) => /^@.+/.test(value),
-  };
-
-  // Attach real-time validation with simple debounce
+  // Debounced validation
   const attachValidation = (fieldName) => {
     const field = form.elements[fieldName];
     const error = document.getElementById(`${fieldName}-error`);
-    let timeoutId;
+    let timer;
 
     field.addEventListener('input', () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        const valid = validators[fieldName](field.value.trim());
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const valid = rules[fieldName](field.value.trim());
         toggle(error, !valid);
         field.setAttribute('aria-invalid', !valid);
-        checkFormValidity();
+        checkForm();
       }, 300);
     });
   };
 
-  // Disable submit until all fields pass validation
-  const checkFormValidity = () => {
-    const allValid = Object.keys(validators).every(name =>
-      validators[name](form.elements[name].value.trim())
+  // Enable submit when all valid
+  const checkForm = () => {
+    const ok = Object.keys(rules).every(name =>
+      rules[name](form.elements[name].value.trim())
     );
-    submitBtn.disabled = !allValid;
+    submitBtn.disabled = !ok;
   };
 
-  // Form submission handler
-  const handleSubmit = async (evt) => {
-    evt.preventDefault();
-    toggle(loadingEl, true);
+  // Handle submission
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    toggle(loading, true);
     submitBtn.disabled = true;
 
     try {
-      const response = await fetch(form.action, {
+      const res = await fetch(form.action, {
         method: form.method,
         body: new FormData(form),
         headers: { 'Accept': 'application/json' }
       });
+      toggle(loading, false);
 
-      toggle(loadingEl, false);
-
-      if (response.ok) {
+      if (res.ok) {
         form.reset();
-        toggle(thanksEl, true);
-        setTimeout(() => toggle(thanksEl, false), 5000);
+        toggle(thanks, true);
+        setTimeout(() => toggle(thanks, false), 5000);
       } else {
-        alert('Error submitting form — please try again later.');
+        alert('Error submitting form—please try again later.');
       }
     } catch (err) {
-      toggle(loadingEl, false);
       console.error(err);
-      alert('Unexpected error — please try again.');
+      toggle(loading, false);
+      alert('Unexpected error—please try again.');
     } finally {
-      checkFormValidity();
+      checkForm();
     }
-  };
+  });
 
-  // Initialization
+  // Init
   attachValidation('email');
   attachValidation('username');
-  form.addEventListener('submit', handleSubmit);
-  checkFormValidity();
+  checkForm();
 });
