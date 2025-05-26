@@ -84,6 +84,20 @@ button:disabled {
   max-height: 100px !important;
 }
 
+/* Support links */
+.support-links {
+  margin-top: 25px;
+  font-size: 15px;
+}
+.support-links a {
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: bold;
+}
+.support-links a:hover {
+  text-decoration: underline;
+}
+
 /* Responsive tweaks */
 @media (max-width: 768px) {
   .support-container { padding: 15px; }
