@@ -2,23 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>RecTuberMultiShow Support</title>
   <link rel="stylesheet" href="styles.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
   <div class="support-container">
     <h1>RecTuberMultiShow Support</h1>
 
-    <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST" enctype="multipart/form-data" novalidate>
+    <form id="support-form"
+          action="https://formspree.io/f/xkgnalkk"
+          method="POST"
+          enctype="multipart/form-data"
+          novalidate>
+
       <!-- Email Field -->
       <label for="email">Your Email:</label>
-      <input type="email" id="email" name="email" required aria-describedby="email-error" />
+      <input type="email"
+             id="email"
+             name="email"
+             required
+             aria-describedby="email-error" />
       <div id="email-error" class="error-message">Please enter a valid email address.</div>
 
       <!-- Rec Room Username -->
       <label for="username">Rec Room Username (include @):</label>
-      <input type="text" id="username" name="username" pattern="@.*" title="Must start with @" required aria-describedby="username-error" />
+      <input type="text"
+             id="username"
+             name="username"
+             pattern="@.*"
+             title="Must start with @"
+             required
+             aria-describedby="username-error" />
       <div id="username-error" class="error-message">Username must start with '@'.</div>
 
       <!-- Issue Type -->
@@ -57,8 +73,16 @@
     <div id="thank-you-message" class="status-message">
       Thank you! We’ll review your request and get back to you soon.
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <!-- Support Links -->
+    <div class="support-links">
+      <p>Have more questions or want to join the conversation?  
+         <a href="https://github.com/orgs/community/discussions/160323" target="_blank" rel="noopener">Ask us on GitHub Discussions!</a>
+      </p>
+      <p>To report a player,  
+         <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank" rel="noopener">click here</a>.
+      </p>
+    </div>
+  </div>
 </body>
 </html>
