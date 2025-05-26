@@ -1,88 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RecTuberMultiShow Support</title>
-  <link rel="stylesheet" href="styles.css">
-  <script defer src="script.js"></script>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="support-container">
+  <div class="container">
     <h1>RecTuberMultiShow Support</h1>
-
-    <form id="support-form"
-          action="https://formspree.io/f/xkgnalkk"
-          method="POST"
-          enctype="multipart/form-data"
-          novalidate>
-      
-      <!-- Email Field -->
-      <label for="email">Your Email:</label>
-      <input type="email"
-             id="email"
-             name="email"
-             required
-             aria-describedby="email-error">
-      <div id="email-error" class="error-message">Please enter a valid email address.</div>
-
-      <!-- Rec Room Username -->
-      <label for="username">Rec Room Username (include @):</label>
-      <input type="text"
-             id="username"
-             name="username"
-             required
-             pattern="@.*"
-             title="Must start with @"
-             aria-describedby="username-error">
-      <div id="username-error" class="error-message">Username must start with '@'.</div>
-
-      <!-- Issue Type -->
-      <label for="issue">Issue Type:</label>
-      <select id="issue" name="issue" required>
-        <option value="Technical Support">Technical Support</option>
-        <option value="General Inquiry">General Inquiry</option>
-        <option value="Bug Report">Bug Report</option>
-        <option value="Feedback/Feature Request">Feedback/Feature Request</option>
-        <option value="Room Ban Appeal">Room Ban Appeal</option>
-      </select>
-
-      <!-- Priority Level -->
-      <label for="priority">Priority Level:</label>
-      <select id="priority" name="priority" required>
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-        <option value="Urgent">Urgent</option>
-      </select>
-
-      <!-- Message Field -->
-      <label for="message">Your Message:</label>
-      <textarea id="message"
-                name="message"
-                rows="5"
-                required></textarea>
-
-      <!-- File Upload -->
-      <label for="files">Attach Files (optional):</label>
-      <input type="file" id="files" name="files" multiple>
-
-      <!-- Submit Button -->
-      <button type="submit">Submit</button>
-    </form>
-
-    <!-- Loading & Thank You -->
-    <div id="loading" class="status-message">Submitting your request…</div>
-    <div id="thank-you-message" class="status-message">
-      Thank you! We’ll review your request and get back to you soon.
+    <p>Need help with The RecTuberMultiShow?</p>
+    <div class="buttons">
+      <a href="https://rec.net/room/TheRecTuberMultiShow" class="button" target="_blank">Visit The Room</a>
+      <a href="https://github.com/orgs/community/discussions/160323" class="button" target="_blank">Ask a Question</a>
     </div>
-
-    <!-- Support Links -->
-    <div class="support-links">
-      <p>For FAQs and more help, visit our <a href="#">Help Center</a>.</p>
-      <p>To report a player, <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank">click here</a>.</p>
-      <p>Have other questions? <a href="https://github.com/orgs/community/discussions/160323" target="_blank">Ask us on GitHub Discussions!</a></p>
-    </div>
+    <p class="note">For additional support, ask a question in our official GitHub Discussion.</p>
   </div>
+  <script src="script.js"></script>
 </body>
 </html>
