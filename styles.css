@@ -86,7 +86,6 @@ button:disabled {
   font-style: italic;
   text-align: center;
 }
-/* show via .visible */
 .visible {
   opacity: 1 !important;
   max-height: 200px !important;
@@ -104,15 +103,6 @@ button:disabled {
 }
 .support-links a:hover {
   text-decoration: underline;
-}
-
-/* Response note */
-.response-time-note {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #666;
-  font-style: italic;
-  text-align: center;
 }
 
 /* Responsive */
