@@ -1,118 +1,61 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const form      = document.getElementById('support-form');
-  const email     = form.elements['email'];
-  const username  = form.elements['username'];
-  const requestType = form.elements['requestType'];
-  const priority  = form.elements['priority'];
-  const subject   = form.elements['subject'];
-  const message   = form.elements['message'];
-  const submitBtn = form.querySelector('button[type="submit"]');
-  const loading   = document.getElementById('loading');
-  const thankYou  = document.getElementById('thank-you');
+  const form = document.getElementById('support-form');
+  const submitButton = form.querySelector('button[type="submit"]');
 
-  // Toggle visibility via .visible
-  const toggle = (el, show) => el.classList.toggle('visible', show);
+  const requiredFields = ['email', 'username', 'issue', 'priority', 'message'];
 
-  // Validation regexes
-  const isValidEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-  const isValidUser  = v => /^@.+/.test(v);
+  const validate = () => {
+    let allFilled = requiredFields.every(id => {
+      const el = document.getElementById(id);
+      return el && el.value.trim() !== '';
+    });
 
-  // Show/hide error message helper
-  function showError(el, condition) {
-    el.classList.toggle('visible', condition);
-  }
+    const email = document.getElementById('email');
+    const username = document.getElementById('username');
 
-  // Validate individual fields & show errors
-  function validateEmail() {
-    const valid = isValidEmail(email.value.trim());
-    email.setAttribute('aria-invalid', !valid);
-    showError(document.getElementById('email-error'), !valid);
-    return valid;
-  }
-  function validateUsername() {
-    const valid = isValidUser(username.value.trim());
-    username.setAttribute('aria-invalid', !valid);
-    showError(document.getElementById('username-error'), !valid);
-    return valid;
-  }
-  function validateRequestType() {
-    const valid = requestType.value !== "";
-    requestType.setAttribute('aria-invalid', !valid);
-    showError(document.getElementById('requestType-error'), !valid);
-    return valid;
-  }
-  function validatePriority() {
-    const valid = priority.value !== "";
-    priority.setAttribute('aria-invalid', !valid);
-    showError(document.getElementById('priority-error'), !valid);
-    return valid;
-  }
-  function validateSubject() {
-    const valid = subject.value.trim().length > 0;
-    subject.setAttribute('aria-invalid', !valid);
-    showError(document.getElementById('subject-error'), !valid);
-    return valid;
-  }
-  function validateMessage() {
-    const valid = message.value.trim().length > 0;
-    message.setAttribute('aria-invalid', !valid);
-    showError(document.getElementById('message-error'), !valid);
-    return valid;
-  }
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+    const isValidUsername = username.value.startsWith('@');
 
-  // Check entire form validity to toggle submit button
-  function updateSubmitState() {
-    const formIsValid =
-      validateEmail() &&
-      validateUsername() &&
-      validateRequestType() &&
-      validatePriority() &&
-      validateSubject() &&
-      validateMessage();
-    submitBtn.disabled = !formIsValid;
-  }
+    document.getElementById('email-error').style.display = isValidEmail ? 'none' : 'block';
+    document.getElementById('username-error').style.display = isValidUsername ? 'none' : 'block';
 
-  // Attach input event listeners to fields for real-time validation
-  [
-    email, username, requestType, priority, subject, message
-  ].forEach(field => {
-    field.addEventListener('input', () => updateSubmitState());
+    if (!isValidEmail || !isValidUsername) {
+      allFilled = false;
+    }
+
+    submitButton.disabled = !allFilled;
+  };
+
+  requiredFields.forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', validate);
   });
 
-  // Handle form submit
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    // Final check before submission
-    if (submitBtn.disabled) return;
+    document.getElementById('loading').style.display = 'block';
 
-    toggle(loading, true);
-    submitBtn.disabled = true;
+    const formData = new FormData(form);
 
-    try {
-      const response = await fetch(form.action, {
-        method: form.method,
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      });
-      toggle(loading, false);
-
-      if (response.ok) {
-        form.reset();
-        toggle(thankYou, true);
-        submitBtn.disabled = true;
-        setTimeout(() => toggle(thankYou, false), 7000);
-      } else {
-        alert("Oops! There was a problem submitting your request.");
-        submitBtn.disabled = false;
+    fetch(form.action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
       }
-    } catch (error) {
-      toggle(loading, false);
-      alert("Network error. Please try again later.");
-      submitBtn.disabled = false;
-    }
+    }).then(response => {
+      document.getElementById('loading').style.display = 'none';
+      if (response.ok) {
+        document.getElementById('thank-you').style.display = 'block';
+        form.reset();
+        submitButton.disabled = true;
+      } else {
+        alert('There was an issue submitting your request. Please try again.');
+      }
+    }).catch(() => {
+      document.getElementById('loading').style.display = 'none';
+      alert('There was an issue submitting your request. Please try again.');
+    });
   });
-
-  // Initial state
-  updateSubmitState();
 });
