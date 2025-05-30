@@ -86,6 +86,7 @@ button:disabled {
   font-style: italic;
   text-align: center;
 }
+/* show via .visible */
 .visible {
   opacity: 1 !important;
   max-height: 200px !important;
