@@ -22,8 +22,8 @@
       <input type="text" id="username" name="username" required pattern="@.*" title="Must start with @" aria-describedby="username-error" />
       <div id="username-error" class="error-message">Username must start with “@”.</div>
 
-      <!-- Issue Type -->
-      <label for="issue">Issue Type</label>
+      <!-- Request Type -->
+      <label for="issue">Please choose a request type below</label>
       <select id="issue" name="issue" required>
         <option value="">Select one…</option>
         <option>Technical Support</option>
@@ -43,9 +43,15 @@
         <option>Urgent</option>
       </select>
 
+      <!-- Subject -->
+      <label for="subject">Subject</label>
+      <input type="text" id="subject" name="subject" required aria-describedby="subject-error" />
+      <div id="subject-error" class="error-message">Please enter a subject.</div>
+
       <!-- Message -->
       <label for="message">Message</label>
-      <textarea id="message" name="message" rows="5" required></textarea>
+      <textarea id="message" name="message" rows="5" required aria-describedby="message-error"></textarea>
+      <div id="message-error" class="error-message">Please enter a message.</div>
 
       <!-- File Upload -->
       <label for="files">Attach Files (optional)</label>
@@ -57,17 +63,21 @@
 
     <!-- Feedback Messages -->
     <div id="loading" class="status-message">Submitting your request…</div>
-    <div id="thank-you" class="status-message">Thanks! We’ve received your request and will be in touch soon. Our team usually responds within 1–3 days.</div>
+    <div id="thank-you" class="status-message">Thanks! We’ve received your request and will be in touch soon. Our team usually replies within 1–3 days.</div>
 
     <!-- Support Links -->
     <div class="support-links">
       <p>
-        Want to ask the community?  
+        Want to ask the community?
         <a href="https://github.com/orgs/community/discussions/160323" target="_blank" rel="noopener">Join our GitHub Discussions</a>
       </p>
       <p>
-        To report a player,  
+        To report a player,
         <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank" rel="noopener">click here</a>.
+      </p>
+      <p>
+        Want to visit the room?  
+        <a href="https://rec.net/room/RecTuberMultiShow" target="_blank" rel="noopener">Click here to visit the room</a>.
       </p>
     </div>
   </div>
