@@ -1,74 +1,107 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RecTuberMultiShow Support</title>
   <link rel="stylesheet" href="styles.css" />
-  <script defer src="script.js"></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="support-container">
+  <main class="container">
     <h1>RecTuberMultiShow Support</h1>
 
     <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST" novalidate>
-      <!-- Email -->
-      <label for="email">Your Email</label>
-      <input type="email" id="email" name="email" required aria-describedby="email-error" />
-      <div id="email-error" class="error-message">Please enter a valid email address.</div>
+      
+      <div class="form-group">
+        <label for="email">Your Email<span class="required">*</span></label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          required
+          aria-describedby="email-error"
+        />
+        <p id="email-error" class="error-message">Please enter a valid email address.</p>
+      </div>
 
-      <!-- Username -->
-      <label for="username">Rec Room Username (start with @)</label>
-      <input type="text" id="username" name="username" required pattern="@.*" aria-describedby="username-error" />
-      <div id="username-error" class="error-message">Username must start with “@”.</div>
+      <div class="form-group">
+        <label for="username">Rec Room Username (start with @)<span class="required">*</span></label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="@YourUsername"
+          required
+          pattern="^@.+"
+          aria-describedby="username-error"
+        />
+        <p id="username-error" class="error-message">Username must start with “@”.</p>
+      </div>
 
-      <!-- Request Type -->
-      <label for="requestType">Request Type</label>
-      <select id="requestType" name="requestType" required aria-describedby="requestType-error">
-        <option value="">Select one…</option>
-        <option>Technical Support</option>
-        <option>General Inquiry</option>
-        <option>Bug Report</option>
-        <option>Feedback / Feature Request</option>
-        <option>Room Ban Appeal</option>
-      </select>
-      <div id="requestType-error" class="error-message">Please choose a request type.</div>
+      <div class="form-group">
+        <label for="requestType">Request Type<span class="required">*</span></label>
+        <select id="requestType" name="requestType" required aria-describedby="requestType-error">
+          <option value="" disabled selected>Select request type</option>
+          <option>Technical Support</option>
+          <option>General Inquiry</option>
+          <option>Bug Report</option>
+          <option>Feedback / Feature Request</option>
+          <option>Room Ban Appeal</option>
+        </select>
+        <p id="requestType-error" class="error-message">Please select a request type.</p>
+      </div>
 
-      <!-- Subject -->
-      <label for="subject">Subject</label>
-      <input type="text" id="subject" name="subject" required aria-describedby="subject-error" />
-      <div id="subject-error" class="error-message">Subject cannot be empty.</div>
+      <div class="form-group">
+        <label for="subject">Subject<span class="required">*</span></label>
+        <input
+          type="text"
+          id="subject"
+          name="subject"
+          placeholder="Brief subject"
+          required
+          aria-describedby="subject-error"
+        />
+        <p id="subject-error" class="error-message">Subject cannot be empty.</p>
+      </div>
 
-      <!-- Message -->
-      <label for="message">Message</label>
-      <textarea id="message" name="message" rows="5" required aria-describedby="message-error"></textarea>
-      <div id="message-error" class="error-message">Message cannot be empty.</div>
+      <div class="form-group">
+        <label for="message">Message<span class="required">*</span></label>
+        <textarea
+          id="message"
+          name="message"
+          rows="6"
+          placeholder="Describe your issue or feedback"
+          required
+          aria-describedby="message-error"
+        ></textarea>
+        <p id="message-error" class="error-message">Message cannot be empty.</p>
+      </div>
 
-      <!-- File Upload -->
-      <label for="files">Attach Files (optional)</label>
-      <input type="file" id="files" name="files" multiple />
+      <div class="form-group">
+        <label for="files">Attach Files (optional)</label>
+        <input type="file" id="files" name="files" multiple />
+      </div>
 
-      <!-- reCAPTCHA -->
-      <div class="g-recaptcha" data-sitekey="6LfWqFArAAAAAFHhxFT6EmUHqVF_des5Z9xGw777"></div>
+      <div class="form-group recaptcha-container">
+        <div class="g-recaptcha" data-sitekey="6LfWqFArAAAAAFHhxFT6EmUHqVF_des5Z9xGw777" data-callback="recaptchaCallback"></div>
+      </div>
 
-      <!-- Submit -->
       <button type="submit" disabled>Submit</button>
+
+      <div id="loading" class="status-message">Submitting your request…</div>
+      <div id="thank-you" class="status-message success">Thanks! We’ve received your request and will respond within 1–3 days.</div>
     </form>
 
-    <!-- Feedback Messages -->
-    <div id="loading" class="status-message">Submitting your request…</div>
-    <div id="thank-you" class="status-message">Thanks! We’ve received your request and will be in touch within 1–3 days.</div>
+    <section class="links">
+      <p>Visit the room: <a href="https://rec.net/room/RecTuberMultiShow" target="_blank" rel="noopener noreferrer">RecTuberMultiShow</a></p>
+      <p>Ask the community: <a href="https://github.com/orgs/community/discussions/160323" target="_blank" rel="noopener noreferrer">GitHub Discussions</a></p>
+      <p>Report a player: <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank" rel="noopener noreferrer">Zendesk</a></p>
+    </section>
+  </main>
 
-    <!-- Support Links -->
-    <div class="support-links">
-      <p>Visit the room: <a href="https://rec.net/room/RecTuberMultiShow" target="_blank">RecTuberMultiShow</a></p>
-      <p>Ask the community: <a href="https://github.com/orgs/community/discussions/160323" target="_blank">GitHub Discussions</a></p>
-      <p>Report a player: <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank">Zendesk</a></p>
-    </div>
-  </div>
-
-  <footer class="version-number">v2025.5.30</footer>
+  <footer class="version">v2025.5.30</footer>
 </body>
 </html>
