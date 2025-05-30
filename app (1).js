@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const form      = document.getElementById('support-form');
   const email     = form.elements['email'];
   const username  = form.elements['username'];
+  const issue     = form.elements['issue'];
+  const message   = form.elements['message'];
   const submitBtn = form.querySelector('button[type="submit"]');
   const loading   = document.getElementById('loading');
   const thankYou  = document.getElementById('thank-you');
@@ -31,9 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function checkForm() {
     const ok = isValidEmail(email.value.trim())
             && isValidUser(username.value.trim())
-            && form.elements['issue'].value
-            && form.elements['priority'].value
-            && form.elements['message'].value.trim();
+            && issue.value.trim().length > 0
+            && message.value.trim().length > 0
+            && form.elements['priority'].value;
     submitBtn.disabled = !ok;
   }
 
