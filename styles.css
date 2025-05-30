@@ -1,174 +1,102 @@
-/* Reset & base */
-* {
-  box-sizing: border-box;
+body {
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-}
-body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: #f5f6f7;
+  background: #f4f4f4;
   color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  text-align: center;
-  padding: 20px;
 }
 
-/* Container */
 .support-container {
+  max-width: 600px;
+  margin: 3em auto;
   background: #fff;
-  padding: 30px 40px;
-  border-radius: 10px;
-  max-width: 700px;
-  width: 100%;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-  text-align: left;
+  padding: 2em;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  border-radius: 8px;
 }
 
-/* Headings */
-h1 {
-  color: #007BFF;
-  font-size: 32px;
-  margin-bottom: 30px;
-  font-weight: 700;
+.support-container h1 {
   text-align: center;
+  margin-bottom: 1em;
 }
 
-/* Form */
-form {
-  width: 100%;
-}
 label {
   display: block;
-  margin-top: 20px;
-  font-weight: 600;
-  color: #444;
+  margin-top: 1em;
+  font-weight: bold;
 }
-input, select, textarea, button {
+
+input[type="email"],
+input[type="text"],
+select,
+textarea,
+input[type="file"] {
   width: 100%;
-  margin-top: 8px;
-  padding: 12px 15px;
-  font-size: 15px;
-  border: 1.8px solid #ccc;
-  border-radius: 6px;
-  transition: border-color 0.3s ease;
-  font-family: inherit;
+  padding: 0.8em;
+  margin-top: 0.3em;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1em;
 }
-input:focus, select:focus, textarea:focus {
-  outline: none;
-  border-color: #007BFF;
-  box-shadow: 0 0 8px rgba(0,123,255,0.3);
-}
+
 textarea {
   resize: vertical;
-  min-height: 110px;
-  font-size: 15px;
 }
 
-/* Button */
-button {
-  margin-top: 30px;
-  background: #007BFF;
-  color: #fff;
-  font-weight: 700;
+button[type="submit"] {
+  margin-top: 1.5em;
+  padding: 0.75em 1.5em;
+  background: #007bff;
+  color: white;
   border: none;
+  border-radius: 4px;
+  font-size: 1em;
   cursor: pointer;
-  transition: background 0.3s ease;
-  padding: 14px;
-  font-size: 16px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,123,255,0.4);
+  transition: background 0.3s;
 }
-button:hover:not(:disabled) {
-  background: #0056b3;
-  box-shadow: 0 6px 16px rgba(0,86,179,0.5);
-}
-button:disabled {
-  opacity: 0.5;
+
+button[type="submit"]:disabled {
+  background: #cccccc;
   cursor: not-allowed;
-  box-shadow: none;
 }
 
-/* Error & status messages */
-.error-message,
-.status-message {
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: opacity 0.25s ease, max-height 0.25s ease;
-  color: #d93025; /* Google Red */
-  font-size: 13px;
-  margin-top: 6px;
-  user-select: none;
+button[type="submit"]:not(:disabled):hover {
+  background: #0056b3;
 }
+
 .status-message {
-  color: #444;
-  font-style: italic;
+  margin-top: 1em;
+  color: green;
+  display: none;
   text-align: center;
-  margin-top: 24px;
-  font-size: 16px;
-}
-.visible {
-  opacity: 1 !important;
-  max-height: 120px !important;
 }
 
-/* Support links */
+.error-message {
+  color: red;
+  font-size: 0.85em;
+  display: none;
+  margin-top: 0.2em;
+}
+
 .support-links {
-  margin-top: 36px;
-  font-size: 15px;
-  color: #555;
-  line-height: 1.5;
+  margin-top: 2em;
   text-align: center;
+  font-size: 0.95em;
 }
+
 .support-links a {
-  color: #007BFF;
+  color: #007bff;
   text-decoration: none;
-  font-weight: 600;
 }
+
 .support-links a:hover {
   text-decoration: underline;
 }
 
-/* Footer version number fixed bottom right */
-footer {
-  position: fixed;
-  bottom: 12px;
-  right: 12px;
-  font-size: 0.85rem;
-  color: #888;
-  background: rgba(255, 255, 255, 0.85);
-  padding: 6px 10px;
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
-  user-select: none;
-  pointer-events: none;
-  z-index: 1000;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .support-container {
-    padding: 25px 30px;
-  }
-  h1 {
-    font-size: 28px;
-  }
-  button {
-    font-size: 15px;
-  }
-}
-@media (max-width: 480px) {
-  .support-container {
-    padding: 20px 20px;
-  }
-  h1 {
-    font-size: 24px;
-  }
-  button {
-    font-size: 14px;
-  }
+.version {
+  text-align: right;
+  padding: 1em;
+  font-size: 0.9em;
+  color: #999;
 }
