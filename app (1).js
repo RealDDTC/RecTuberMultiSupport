@@ -1,75 +1,49 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const form      = document.getElementById('support-form');
-  const email     = form.elements['email'];
-  const username  = form.elements['username'];
-  const issue     = form.elements['issue'];
-  const message   = form.elements['message'];
-  const submitBtn = form.querySelector('button[type="submit"]');
-  const loading   = document.getElementById('loading');
-  const thankYou  = document.getElementById('thank-you');
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("support-form");
+  const email = document.getElementById("email");
+  const username = document.getElementById("username");
+  const message = document.getElementById("message");
+  const loading = document.getElementById("loading");
+  const thankYou = document.getElementById("thank-you");
 
-  // Toggle visibility via .visible
-  const toggle = (el, show) => el.classList.toggle('visible', show);
+  // Error messages
+  const emailError = document.getElementById("email-error");
+  const usernameError = document.getElementById("username-error");
 
-  // Validation regexes
-  const isValidEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-  const isValidUser  = v => /^@.+/.test(v);
+  form.addEventListener("submit", function (e) {
+    let isValid = true;
+    emailError.classList.remove("visible");
+    usernameError.classList.remove("visible");
 
-  // Debounced validation
-  function attachValidation(field, validator, errorEl) {
-    let timer;
-    field.addEventListener('input', () => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        const valid = validator(field.value.trim());
-        toggle(errorEl, !valid);
-        field.setAttribute('aria-invalid', !valid);
-        checkForm();
-      }, 300);
-    });
-  }
-
-  // Enable submit only when valid
-  function checkForm() {
-    const ok = isValidEmail(email.value.trim())
-            && isValidUser(username.value.trim())
-            && issue.value.trim().length > 0
-            && message.value.trim().length > 0
-            && form.elements['priority'].value;
-    submitBtn.disabled = !ok;
-  }
-
-  // Handle submit
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    toggle(loading, true);
-    submitBtn.disabled = true;
-
-    try {
-      const res = await fetch(form.action, {
-        method: form.method,
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      });
-      toggle(loading, false);
-      if (res.ok) {
-        form.reset();
-        toggle(thankYou, true);
-        setTimeout(() => toggle(thankYou, false), 5000);
-      } else {
-        alert('Submission error—please try again later.');
-      }
-    } catch (err) {
-      console.error(err);
-      toggle(loading, false);
-      alert('An unexpected error occurred.');
-    } finally {
-      checkForm();
+    // Validate email
+    if (!email.value || !email.checkValidity()) {
+      emailError.classList.add("visible");
+      isValid = false;
     }
+
+    // Validate username pattern
+    if (!username.value.startsWith("@")) {
+      usernameError.classList.add("visible");
+      isValid = false;
+    }
+
+    // Validate message
+    if (!message.value.trim()) {
+      alert("Please enter a message.");
+      isValid = false;
+    }
+
+    if (!isValid) {
+      e.preventDefault();
+      return;
+    }
+
+    // Show loading message
+    loading.classList.add("visible");
   });
 
-  // initialize
-  attachValidation(email, isValidEmail, document.getElementById('email-error'));
-  attachValidation(username, isValidUser, document.getElementById('username-error'));
-  checkForm();
+  // Handle thank-you message after submission
+  if (window.location.hash === "#thank-you") {
+    thankYou.classList.add("visible");
+  }
 });
