@@ -1,78 +1,97 @@
-// script.js
 document.addEventListener('DOMContentLoaded', () => {
-  const form       = document.getElementById('support-form');
-  const email      = form.elements['email'];
-  const username   = form.elements['username'];
-  const requestType= form.elements['requestType'];
-  const subject    = form.elements['subject'];
-  const message    = form.elements['message'];
-  const submitBtn  = form.querySelector('button[type="submit"]');
-  const loading    = document.getElementById('loading');
-  const thankYou   = document.getElementById('thank-you');
+  const form = document.getElementById('support-form');
+  const email = form.email;
+  const username = form.username;
+  const requestType = form.requestType;
+  const subject = form.subject;
+  const message = form.message;
+  const submitBtn = form.querySelector('button[type="submit"]');
 
-  // helper to show/hide
-  const show = (el, cond) => el.classList.toggle('visible', cond);
+  const errorEmail = document.getElementById('email-error');
+  const errorUsername = document.getElementById('username-error');
+  const errorRequestType = document.getElementById('requestType-error');
+  const errorSubject = document.getElementById('subject-error');
+  const errorMessage = document.getElementById('message-error');
 
-  // validators
-  const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-  const validUser  = v => /^@.+/.test(v);
+  const loadingMsg = document.getElementById('loading');
+  const thankYouMsg = document.getElementById('thank-you');
 
-  function validateAll() {
-    let ok = validEmail(email.value.trim())
-          && validUser(username.value.trim())
-          && requestType.value.trim() !== ''
-          && subject.value.trim() !== ''
-          && message.value.trim() !== ''
-          && (grecaptcha && grecaptcha.getResponse().length > 0);
+  // Show/hide helper
+  const toggleError = (element, condition) => {
+    if (condition) element.style.display = 'block';
+    else element.style.display = 'none';
+  };
 
-    // toggle individual errors
-    show(document.getElementById('email-error'), !validEmail(email.value.trim()));
-    show(document.getElementById('username-error'), !validUser(username.value.trim()));
-    show(document.getElementById('subject-error'), subject.value.trim()==='');
-    show(document.getElementById('message-error'), message.value.trim()==='');
+  // Validation helpers
+  const isValidEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-    submitBtn.disabled = !ok;
+  const isValidUsername = (username) =>
+    /^@.+/.test(username);
+
+  // Validate entire form, enable submit if all valid and reCAPTCHA completed
+  function validateForm() {
+    const validEmail = isValidEmail(email.value.trim());
+    const validUsername = isValidUsername(username.value.trim());
+    const validRequestType = requestType.value.trim() !== '';
+    const validSubject = subject.value.trim().length > 0;
+    const validMessage = message.value.trim().length > 0;
+    const recaptchaResponse = grecaptcha.getResponse().length > 0;
+
+    toggleError(errorEmail, !validEmail);
+    toggleError(errorUsername, !validUsername);
+    toggleError(errorRequestType, !validRequestType);
+    toggleError(errorSubject, !validSubject);
+    toggleError(errorMessage, !validMessage);
+
+    submitBtn.disabled = !(validEmail && validUsername && validRequestType && validSubject && validMessage && recaptchaResponse);
   }
 
-  // attach live checks
+  // Validate on input
   [email, username, requestType, subject, message].forEach(el => {
-    el.addEventListener('input', validateAll);
+    el.addEventListener('input', validateForm);
+    el.addEventListener('blur', validateForm);
   });
-  requestType.addEventListener('change', validateAll);
-  // reCAPTCHA callback must call validateAll
-  window.recaptchaCallback = validateAll;
-  // fallback: poll captcha state
-  setInterval(validateAll, 1000);
 
-  // on submit
-  form.addEventListener('submit', async e => {
+  // recaptcha callback
+  window.recaptchaCallback = () => {
+    validateForm();
+  };
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    show(loading, true);
+    loadingMsg.style.display = 'block';
+    thankYouMsg.style.display = 'none';
     submitBtn.disabled = true;
 
+    // Prepare FormData
+    const formData = new FormData(form);
+
     try {
-      const res = await fetch(form.action, {
-        method: form.method,
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json',
+        },
       });
-      show(loading, false);
-      if (res.ok) {
+
+      if (response.ok) {
+        loadingMsg.style.display = 'none';
+        thankYouMsg.style.display = 'block';
         form.reset();
         grecaptcha.reset();
-        show(thankYou, true);
-        setTimeout(() => show(thankYou, false), 7000);
+        submitBtn.disabled = true;
       } else {
-        alert('Submission error—please try again.');
-        submitBtn.disabled = false;
+        throw new Error('Network response was not OK');
       }
-    } catch {
-      show(loading, false);
-      alert('Network error—please try later.');
+    } catch (error) {
+      loadingMsg.style.display = 'none';
+      alert('There was an error submitting the form. Please try again.');
       submitBtn.disabled = false;
     }
   });
 
-  // initial validate
-  validateAll();
+  // Initial validation in case form is pre-filled
+  validateForm();
 });
