@@ -1,115 +1,118 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('support-form');
+  const form      = document.getElementById('support-form');
+  const email     = form.elements['email'];
+  const username  = form.elements['username'];
+  const requestType = form.elements['requestType'];
+  const priority  = form.elements['priority'];
+  const subject   = form.elements['subject'];
+  const message   = form.elements['message'];
   const submitBtn = form.querySelector('button[type="submit"]');
+  const loading   = document.getElementById('loading');
+  const thankYou  = document.getElementById('thank-you');
 
-  const inputsToValidate = [
-    {
-      el: form.elements['email'],
-      validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
-      errorId: 'email-error'
-    },
-    {
-      el: form.elements['username'],
-      validate: v => /^@.+/.test(v),
-      errorId: 'username-error'
-    },
-    {
-      el: form.elements['issue'],
-      validate: v => v.trim() !== '',
-      errorId: 'request-type-error'
-    },
-    {
-      el: form.elements['priority'],
-      validate: v => v.trim() !== '',
-      errorId: 'priority-error'
-    },
-    {
-      el: form.elements['subject'],
-      validate: v => v.trim().length > 0,
-      errorId: 'subject-error'
-    },
-    {
-      el: form.elements['message'],
-      validate: v => v.trim().length > 0,
-      errorId: 'message-error'
-    },
-  ];
+  // Toggle visibility via .visible
+  const toggle = (el, show) => el.classList.toggle('visible', show);
 
-  // Show or hide error message
-  function showError(errorId, show) {
-    const errorEl = document.getElementById(errorId);
-    if (show) {
-      errorEl.classList.add('visible');
-    } else {
-      errorEl.classList.remove('visible');
-    }
+  // Validation regexes
+  const isValidEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const isValidUser  = v => /^@.+/.test(v);
+
+  // Show/hide error message helper
+  function showError(el, condition) {
+    el.classList.toggle('visible', condition);
   }
 
-  // Validate all inputs and update errors
-  function validateAll() {
-    let allValid = true;
-    inputsToValidate.forEach(({ el, validate, errorId }) => {
-      const valid = validate(el.value.trim());
-      showError(errorId, !valid);
-      if (!valid) allValid = false;
-    });
-    return allValid;
+  // Validate individual fields & show errors
+  function validateEmail() {
+    const valid = isValidEmail(email.value.trim());
+    email.setAttribute('aria-invalid', !valid);
+    showError(document.getElementById('email-error'), !valid);
+    return valid;
+  }
+  function validateUsername() {
+    const valid = isValidUser(username.value.trim());
+    username.setAttribute('aria-invalid', !valid);
+    showError(document.getElementById('username-error'), !valid);
+    return valid;
+  }
+  function validateRequestType() {
+    const valid = requestType.value !== "";
+    requestType.setAttribute('aria-invalid', !valid);
+    showError(document.getElementById('requestType-error'), !valid);
+    return valid;
+  }
+  function validatePriority() {
+    const valid = priority.value !== "";
+    priority.setAttribute('aria-invalid', !valid);
+    showError(document.getElementById('priority-error'), !valid);
+    return valid;
+  }
+  function validateSubject() {
+    const valid = subject.value.trim().length > 0;
+    subject.setAttribute('aria-invalid', !valid);
+    showError(document.getElementById('subject-error'), !valid);
+    return valid;
+  }
+  function validateMessage() {
+    const valid = message.value.trim().length > 0;
+    message.setAttribute('aria-invalid', !valid);
+    showError(document.getElementById('message-error'), !valid);
+    return valid;
   }
 
-  // Enable or disable submit button based on validity
+  // Check entire form validity to toggle submit button
   function updateSubmitState() {
-    submitBtn.disabled = !validateAll();
+    const formIsValid =
+      validateEmail() &&
+      validateUsername() &&
+      validateRequestType() &&
+      validatePriority() &&
+      validateSubject() &&
+      validateMessage();
+    submitBtn.disabled = !formIsValid;
   }
 
-  // Add input listeners to validate on input
-  inputsToValidate.forEach(({ el }) => {
-    el.addEventListener('input', updateSubmitState);
+  // Attach input event listeners to fields for real-time validation
+  [
+    email, username, requestType, priority, subject, message
+  ].forEach(field => {
+    field.addEventListener('input', () => updateSubmitState());
   });
 
-  // Show loading and thank you message containers
-  const loading = document.getElementById('loading');
-  const thankYou = document.getElementById('thank-you');
-
+  // Handle form submit
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    if (!validateAll()) {
-      return; // Don't submit if invalid
-    }
+    // Final check before submission
+    if (submitBtn.disabled) return;
 
-    loading.classList.add('visible');
+    toggle(loading, true);
     submitBtn.disabled = true;
 
     try {
-      const res = await fetch(form.action, {
+      const response = await fetch(form.action, {
         method: form.method,
         body: new FormData(form),
-        headers: { Accept: 'application/json' }
+        headers: { 'Accept': 'application/json' }
       });
+      toggle(loading, false);
 
-      loading.classList.remove('visible');
-
-      if (res.ok) {
+      if (response.ok) {
         form.reset();
-        thankYou.classList.add('visible');
+        toggle(thankYou, true);
         submitBtn.disabled = true;
-        setTimeout(() => {
-          thankYou.classList.remove('visible');
-          submitBtn.disabled = false;
-          updateSubmitState();
-        }, 7000);
+        setTimeout(() => toggle(thankYou, false), 7000);
       } else {
-        alert('Submission error—please try again later.');
+        alert("Oops! There was a problem submitting your request.");
         submitBtn.disabled = false;
       }
-    } catch (err) {
-      console.error(err);
-      alert('An unexpected error occurred.');
-      loading.classList.remove('visible');
+    } catch (error) {
+      toggle(loading, false);
+      alert("Network error. Please try again later.");
       submitBtn.disabled = false;
     }
   });
 
-  // Initial disable submit until form is valid
+  // Initial state
   updateSubmitState();
 });
