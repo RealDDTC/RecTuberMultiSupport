@@ -1,61 +1,76 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('support-form');
-  const submitButton = form.querySelector('button[type="submit"]');
+  const form      = document.getElementById('support-form');
+  const email     = form.elements['email'];
+  const username  = form.elements['username'];
+  const requestType = form.elements['request-type'];
+  const message   = form.elements['message'];
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const loading   = document.getElementById('loading');
+  const thankYou  = document.getElementById('thank-you');
 
-  const requiredFields = ['email', 'username', 'issue', 'priority', 'message'];
+  // Toggle visibility via .visible
+  const toggle = (el, show) => el.classList.toggle('visible', show);
 
-  const validate = () => {
-    let allFilled = requiredFields.every(id => {
-      const el = document.getElementById(id);
-      return el && el.value.trim() !== '';
+  // Validation regexes
+  const isValidEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const isValidUser  = v => /^@.+/.test(v);
+
+  // Debounced validation
+  function attachValidation(field, validator, errorEl) {
+    let timer;
+    field.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const valid = validator(field.value.trim());
+        toggle(errorEl, !valid);
+        field.setAttribute('aria-invalid', !valid);
+        checkForm();
+      }, 300);
     });
+  }
 
-    const email = document.getElementById('email');
-    const username = document.getElementById('username');
+  // Enable submit only when valid and all required filled
+  function checkForm() {
+    const ok = isValidEmail(email.value.trim())
+            && isValidUser(username.value.trim())
+            && requestType.value.trim() !== ''
+            && message.value.trim() !== '';
+    submitBtn.disabled = !ok;
+  }
 
-    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
-    const isValidUsername = username.value.startsWith('@');
-
-    document.getElementById('email-error').style.display = isValidEmail ? 'none' : 'block';
-    document.getElementById('username-error').style.display = isValidUsername ? 'none' : 'block';
-
-    if (!isValidEmail || !isValidUsername) {
-      allFilled = false;
-    }
-
-    submitButton.disabled = !allFilled;
-  };
-
-  requiredFields.forEach(id => {
-    const el = document.getElementById(id);
-    el.addEventListener('input', validate);
-  });
-
-  form.addEventListener('submit', (e) => {
+  // Handle submit
+  form.addEventListener('submit', async e => {
     e.preventDefault();
+    toggle(loading, true);
+    submitBtn.disabled = true;
 
-    document.getElementById('loading').style.display = 'block';
-
-    const formData = new FormData(form);
-
-    fetch(form.action, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(response => {
-      document.getElementById('loading').style.display = 'none';
-      if (response.ok) {
-        document.getElementById('thank-you').style.display = 'block';
+    try {
+      const res = await fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      toggle(loading, false);
+      if (res.ok) {
         form.reset();
-        submitButton.disabled = true;
+        toggle(thankYou, true);
+        setTimeout(() => toggle(thankYou, false), 5000);
       } else {
-        alert('There was an issue submitting your request. Please try again.');
+        alert('Submission error—please try again later.');
       }
-    }).catch(() => {
-      document.getElementById('loading').style.display = 'none';
-      alert('There was an issue submitting your request. Please try again.');
-    });
+    } catch (err) {
+      console.error(err);
+      toggle(loading, false);
+      alert('An unexpected error occurred.');
+    } finally {
+      checkForm();
+    }
   });
+
+  // initialize
+  attachValidation(email, isValidEmail, document.getElementById('email-error'));
+  attachValidation(username, isValidUser, document.getElementById('username-error'));
+  attachValidation(message, v => v.trim() !== '', document.getElementById('message-error'));
+  requestType.addEventListener('change', checkForm);
+  checkForm();
 });
