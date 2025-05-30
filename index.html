@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RecTuberMultiShow Support</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
   <script defer src="script.js"></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
@@ -12,19 +12,21 @@
   <div class="support-container">
     <h1>RecTuberMultiShow Support</h1>
 
+    <p class="subheader">Please choose a request type below</p>
+
     <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST" enctype="multipart/form-data" novalidate>
       <!-- Email -->
       <label for="email">Your Email</label>
-      <input type="email" id="email" name="email" required aria-describedby="email-error">
+      <input type="email" id="email" name="email" required aria-describedby="email-error" />
       <div id="email-error" class="error-message">Please enter a valid email address.</div>
 
-      <!-- Username -->
+      <!-- Rec Room Username -->
       <label for="username">Rec Room Username (start with @)</label>
-      <input type="text" id="username" name="username" required pattern="@.*" aria-describedby="username-error">
-      <div id="username-error" class="error-message">Username must start with "@".</div>
+      <input type="text" id="username" name="username" required pattern="@.*" title="Must start with @" aria-describedby="username-error" />
+      <div id="username-error" class="error-message">Username must start with “@”.</div>
 
       <!-- Request Type -->
-      <label for="issue">Please choose a request type below</label>
+      <label for="issue">Request Type</label>
       <select id="issue" name="issue" required>
         <option value="">Select one…</option>
         <option>Technical Support</option>
@@ -50,7 +52,7 @@
 
       <!-- File Upload -->
       <label for="files">Attach Files (optional)</label>
-      <input type="file" id="files" name="files" multiple>
+      <input type="file" id="files" name="files" multiple />
 
       <!-- reCAPTCHA -->
       <div class="g-recaptcha" data-sitekey="6LfWqFArAAAAAFHhxFT6EmUHqVF_des5Z9xGw777"></div>
@@ -61,16 +63,26 @@
 
     <!-- Feedback Messages -->
     <div id="loading" class="status-message">Submitting your request…</div>
-    <div id="thank-you" class="status-message">Thanks! We’ve received your request. Our team will respond as soon as possible (1–3 days).</div>
+    <div id="thank-you" class="status-message">Thanks! We’ve received your request and will be in touch within 1–3 days.</div>
 
     <!-- Support Links -->
     <div class="support-links">
-      <p>Visit the room: <a href="https://rec.net/room/RecTuberMultiShow" target="_blank">RecTuberMultiShow</a></p>
-      <p>Want to ask the community? <a href="https://github.com/orgs/community/discussions/160323" target="_blank">Join GitHub Discussions</a></p>
-      <p>To report a player, <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank">click here</a>.</p>
+      <p>
+        Want to ask the community?  
+        <a href="https://github.com/orgs/community/discussions/160323" target="_blank" rel="noopener">Join our GitHub Discussions</a>
+      </p>
+      <p>
+        To report a player,  
+        <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank" rel="noopener">click here</a>.
+      </p>
+      <p>
+        Visit the room:
+        <a href="https://rec.net/room/RecTuberMultiShow" target="_blank">RecTuberMultiShow</a>
+      </p>
     </div>
   </div>
-
-  <footer class="version">v2025.5.30</footer>
+  <footer>
+    <span class="version">v2025.5.30</span>
+  </footer>
 </body>
 </html>
