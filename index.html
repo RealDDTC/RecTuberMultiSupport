@@ -2,58 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>RecTuberMultiShow Support</title>
   <link rel="stylesheet" href="styles.css" />
   <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="support-container">
+  <main class="support-container" role="main">
     <h1>RecTuberMultiShow Support</h1>
 
-    <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST" enctype="multipart/form-data" novalidate>
+    <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST" novalidate>
       <!-- Email -->
-      <label for="email">Your Email</label>
+      <label for="email">Your Email <span class="required">*</span></label>
       <input type="email" id="email" name="email" required aria-describedby="email-error" />
       <div id="email-error" class="error-message">Please enter a valid email address.</div>
 
-      <!-- Rec Room Username -->
-      <label for="username">Rec Room Username (start with @)</label>
-      <input type="text" id="username" name="username" required pattern="@.*" title="Must start with @" aria-describedby="username-error" />
+      <!-- Username -->
+      <label for="username">Rec Room Username (start with @) <span class="required">*</span></label>
+      <input type="text" id="username" name="username" required pattern="^@.+" title="Must start with @" aria-describedby="username-error" />
       <div id="username-error" class="error-message">Username must start with “@”.</div>
 
       <!-- Request Type -->
-      <label for="issue">Please choose a request type below</label>
-      <select id="issue" name="issue" required>
-        <option value="">Select one…</option>
-        <option>Technical Support</option>
-        <option>General Inquiry</option>
-        <option>Bug Report</option>
-        <option>Feedback / Feature Request</option>
-        <option>Room Ban Appeal</option>
+      <label for="request-type">Request Type <span class="required">*</span></label>
+      <select id="request-type" name="issue" required aria-describedby="request-type-error">
+        <option value="">Please choose a request type</option>
+        <option value="Technical Support">Technical Support</option>
+        <option value="General Inquiry">General Inquiry</option>
+        <option value="Bug Report">Bug Report</option>
+        <option value="Feedback / Feature Request">Feedback / Feature Request</option>
+        <option value="Room Ban Appeal">Room Ban Appeal</option>
       </select>
+      <div id="request-type-error" class="error-message">Please select a request type.</div>
 
       <!-- Priority -->
-      <label for="priority">Priority Level</label>
-      <select id="priority" name="priority" required>
-        <option value="">Select priority…</option>
-        <option>Low</option>
-        <option>Medium</option>
-        <option>High</option>
-        <option>Urgent</option>
+      <label for="priority">Priority Level <span class="required">*</span></label>
+      <select id="priority" name="priority" required aria-describedby="priority-error">
+        <option value="">Select priority level</option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+        <option value="Urgent">Urgent</option>
       </select>
+      <div id="priority-error" class="error-message">Please select a priority level.</div>
 
       <!-- Subject -->
-      <label for="subject">Subject</label>
+      <label for="subject">Subject <span class="required">*</span></label>
       <input type="text" id="subject" name="subject" required aria-describedby="subject-error" />
       <div id="subject-error" class="error-message">Please enter a subject.</div>
 
       <!-- Message -->
-      <label for="message">Message</label>
+      <label for="message">Message <span class="required">*</span></label>
       <textarea id="message" name="message" rows="5" required aria-describedby="message-error"></textarea>
-      <div id="message-error" class="error-message">Please enter a message.</div>
+      <div id="message-error" class="error-message">Please enter your message.</div>
 
-      <!-- File Upload -->
+      <!-- Attach Files -->
       <label for="files">Attach Files (optional)</label>
       <input type="file" id="files" name="files" multiple />
 
@@ -61,25 +63,26 @@
       <button type="submit">Submit</button>
     </form>
 
-    <!-- Feedback Messages -->
+    <!-- Loading and Thank You messages -->
     <div id="loading" class="status-message">Submitting your request…</div>
-    <div id="thank-you" class="status-message">Thanks! We’ve received your request and will be in touch soon. Our team usually replies within 1–3 days.</div>
+    <div id="thank-you" class="status-message">Thanks! We’ve received your request and will be in touch within 1-3 days.</div>
 
-    <!-- Support Links -->
-    <div class="support-links">
-      <p>
-        Want to ask the community?
-        <a href="https://github.com/orgs/community/discussions/160323" target="_blank" rel="noopener">Join our GitHub Discussions</a>
+    <!-- Extra links -->
+    <section class="support-links">
+      <p>Want to ask the community?  
+        <a href="https://github.com/orgs/community/discussions/160323" target="_blank" rel="noopener noreferrer">Join our GitHub Discussions</a>
       </p>
-      <p>
-        To report a player,
-        <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank" rel="noopener">click here</a>.
+      <p>To report a player,  
+        <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank" rel="noopener noreferrer">click here</a>.
       </p>
-      <p>
-        Want to visit the room?  
-        <a href="https://rec.net/room/RecTuberMultiShow" target="_blank" rel="noopener">Click here to visit the room</a>.
+      <p>Visit the room:  
+        <a href="https://rec.net/room/RecTuberMultiShow" target="_blank" rel="noopener noreferrer">RecTuberMultiShow</a>
       </p>
-    </div>
-  </div>
+    </section>
+  </main>
+
+  <footer>
+    <small>v2025.5.30</small>
+  </footer>
 </body>
 </html>
