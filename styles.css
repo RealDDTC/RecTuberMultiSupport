@@ -13,7 +13,6 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  text-align: left;
   padding: 20px;
 }
 
@@ -23,15 +22,15 @@ body {
   border-radius: 12px;
   max-width: 600px;
   width: 100%;
-  box-shadow: 0 15px 30px rgba(0, 123, 255, 0.15);
+  box-shadow: 0 12px 30px rgba(0, 123, 255, 0.15);
   position: relative;
 }
 
 h1 {
   color: #0056b3;
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
@@ -40,26 +39,20 @@ label {
   margin-top: 20px;
   font-weight: 600;
   font-size: 15px;
-  color: #222;
 }
 
-input,
-select,
-textarea,
-button {
+input, select, textarea {
   width: 100%;
   margin-top: 8px;
   padding: 12px 14px;
   font-size: 15px;
-  border-radius: 8px;
   border: 1.8px solid #ccc;
+  border-radius: 8px;
   transition: border-color 0.3s ease;
   font-family: inherit;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
+input:focus, select:focus, textarea:focus {
   border-color: #0056b3;
   outline: none;
   box-shadow: 0 0 6px rgba(0, 86, 179, 0.25);
@@ -68,34 +61,50 @@ textarea:focus {
 textarea {
   resize: vertical;
   min-height: 120px;
-  font-size: 15px;
   line-height: 1.4;
 }
 
-button {
-  margin-top: 30px;
+button[type="submit"] {
+  margin-top: 25px;
   background: #007bff;
   color: #fff;
   font-weight: 700;
   border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  padding: 14px 0;
   cursor: pointer;
   transition: background-color 0.25s ease;
-  border-radius: 10px;
-  font-size: 18px;
-  padding: 14px 0;
 }
 
-button:hover:not(:disabled) {
+button[type="submit"]:hover:not(:disabled) {
   background: #0056b3;
 }
 
-button:disabled {
+button[type="submit"]:disabled {
   background: #a6c8ff;
   cursor: not-allowed;
 }
 
+.check-button {
+  margin-top: 12px;
+  background: transparent;
+  color: #0056b3;
+  border: 2px solid #0056b3;
+  border-radius: 8px;
+  font-size: 14px;
+  padding: 10px 0;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.check-button:hover {
+  background: #0056b3;
+  color: #fff;
+}
+
 .error-message {
-  margin-top: 5px;
+  margin-top: 6px;
   font-size: 13px;
   color: #d93025;
   display: none;
@@ -109,7 +118,6 @@ button:disabled {
   margin-top: 20px;
   font-style: italic;
   font-size: 16px;
-  color: #0056b3;
   text-align: center;
   display: none;
 }
@@ -121,15 +129,14 @@ button:disabled {
 .support-links {
   margin-top: 35px;
   font-size: 14px;
-  color: #555;
   text-align: center;
+  color: #555;
 }
 
 .support-links a {
   color: #007bff;
   font-weight: 600;
   text-decoration: none;
-  transition: color 0.2s ease;
 }
 
 .support-links a:hover {
@@ -137,7 +144,6 @@ button:disabled {
   color: #004a99;
 }
 
-/* Version label */
 .version-label {
   position: absolute;
   bottom: 10px;
@@ -154,10 +160,14 @@ button:disabled {
     padding: 25px 20px 35px;
   }
   h1 {
-    font-size: 26px;
+    font-size: 1.6rem;
   }
-  button {
-    font-size: 16px;
+  button[type="submit"] {
+    font-size: 15px;
     padding: 12px 0;
+  }
+  .check-button {
+    font-size: 13px;
+    padding: 8px 0;
   }
 }
