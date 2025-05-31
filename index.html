@@ -9,65 +9,87 @@
   <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="form-card">
-    <h2>RecTuberMultiShow Support</h2>
+  <div class="support-container">
+    <h1>RecTuberMultiShow Support</h1>
     <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST" novalidate>
-      <div class="input-group">
-        <input type="email" id="email" name="email" required />
-        <label for="email">Your Email</label>
-        <span class="bar"></span>
-        <p class="error">Invalid email address.</p>
-      </div>
+      <label for="email">Your Email</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="you@example.com"
+        required
+        aria-describedby="email-error"
+      />
+      <div id="email-error" class="error-message">Please enter a valid email address.</div>
 
-      <div class="input-group">
-        <input type="text" id="username" name="username" pattern="^@.+" required />
-        <label for="username">Rec Room Username (@...)</label>
-        <span class="bar"></span>
-        <p class="error">Must start with “@”.</p>
-      </div>
+      <label for="username">Rec Room Username (start with @)</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="@YourUsername"
+        pattern="^@.+"
+        title="Must start with @"
+        required
+        aria-describedby="username-error"
+      />
+      <div id="username-error" class="error-message">Username must start with “@”.</div>
 
-      <div class="input-group">
-        <select id="requestType" name="requestType" required>
-          <option value="" disabled selected></option>
-          <option>Technical Support</option>
-          <option>General Inquiry</option>
-          <option>Bug Report</option>
-          <option>Feedback / Feature Request</option>
-          <option>Room Ban Appeal</option>
-        </select>
-        <label for="requestType">Request Type</label>
-        <span class="bar"></span>
-        <p class="error">Please select a type.</p>
-      </div>
+      <label for="issue">Request Type</label>
+      <select id="issue" name="issue" required>
+        <option value="" disabled selected>Please choose a request type below</option>
+        <option>Technical Support</option>
+        <option>General Inquiry</option>
+        <option>Bug Report</option>
+        <option>Feedback / Feature Request</option>
+        <option>Room Ban Appeal</option>
+      </select>
 
-      <div class="input-group">
-        <input type="text" id="subject" name="subject" required />
-        <label for="subject">Subject</label>
-        <span class="bar"></span>
-        <p class="error">Subject cannot be empty.</p>
-      </div>
+      <label for="priority">Priority Level</label>
+      <select id="priority" name="priority" required>
+        <option value="" disabled selected>Select priority level</option>
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+        <option>Urgent</option>
+      </select>
 
-      <div class="input-group">
-        <textarea id="message" name="message" rows="4" required></textarea>
-        <label for="message">Message</label>
-        <span class="bar"></span>
-        <p class="error">Message cannot be empty.</p>
-      </div>
+      <label for="message">Message</label>
+      <textarea
+        id="message"
+        name="message"
+        rows="6"
+        placeholder="Please describe your issue or question..."
+        required
+      ></textarea>
 
-      <div class="input-group file-group">
-        <input type="file" id="files" name="files" multiple />
-        <label for="files">Attach Files (optional)</label>
-      </div>
+      <label for="files">Attach Files (optional)</label>
+      <input type="file" id="files" name="files" multiple />
 
-      <div class="recaptcha-wrapper">
-        <div class="g-recaptcha" data-sitekey="6LfWqFArAAAAAFHhxFT6EmUHqVF_des5Z9xGw777" data-callback="recaptchaCallback"></div>
-      </div>
+      <div class="g-recaptcha" data-sitekey="6LfWqFArAAAAAFHhxFT6EmUHqVF_des5Z9xGw777" data-callback="onCaptchaSuccess"></div>
 
-      <button type="submit" disabled>Submit</button>
-      <p id="loading" class="loading">Submitting…</p>
-      <p id="thank-you" class="thanks">Thank you! We’ll respond within 1–3 days.</p>
+      <button type="submit" id="submit-btn" disabled>Submit</button>
     </form>
-    <footer class="version">v2025.5.30</footer>
+
+    <div id="loading" class="status-message">Submitting your request…</div>
+    <div id="thank-you" class="status-message">
+      Thanks! We’ve received your request and will be in touch within 1–3 days.
+    </div>
+
+    <div class="support-links">
+      <p>
+        Want to ask the community?  
+        <a href="https://github.com/orgs/community/discussions/160323" target="_blank" rel="noopener">Join our GitHub Discussions</a>
+      </p>
+      <p>
+        To report a player,  
+        <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank" rel="noopener">click here</a>.
+      </p>
+      <p>Visit the room: <a href="https://rec.net/room/RecTuberMultiShow" target="_blank" rel="noopener">RecTuberMultiShow</a></p>
+    </div>
+
+    <div class="version-label">v2025.5.31</div>
   </div>
 </body>
 </html>
