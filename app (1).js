@@ -1,75 +1,102 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const form       = document.getElementById('support-form');
-  const email      = form.email;
-  const username   = form.username;
-  const requestType= form.requestType;
-  const subject    = form.subject;
-  const message    = form.message;
-  const submitBtn  = form.querySelector('button');
-  const loadingMsg = document.getElementById('loading');
-  const thanksMsg  = document.getElementById('thank-you');
+  const form = document.getElementById('support-form');
+  const email = form.elements['email'];
+  const username = form.elements['username'];
+  const issue = form.elements['issue'];
+  const priority = form.elements['priority'];
+  const message = form.elements['message'];
+  const submitBtn = document.getElementById('submit-btn');
+  const loading = document.getElementById('loading');
+  const thankYou = document.getElementById('thank-you');
 
-  const errEmail   = document.querySelector('#email-error');
-  const errUser    = document.querySelector('#username-error');
-  const errType    = document.querySelector('#requestType-error');
-  const errSubj    = document.querySelector('#subject-error');
-  const errMsg     = document.querySelector('#message-error');
+  const emailError = document.getElementById('email-error');
+  const usernameError = document.getElementById('username-error');
 
-  function showErr(el, show) {
-    el.style.display = show ? 'block' : 'none';
-  }
+  // Validation regexes
+  const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const isValidUser = (v) => /^@.+/.test(v);
 
-  function valid() {
-    const vEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
-    const vUser  = /^@.+/.test(username.value.trim());
-    const vType  = requestType.value.trim() !== '';
-    const vSubj  = subject.value.trim() !== '';
-    const vMsg   = message.value.trim() !== '';
-    const vCap   = window.grecaptcha && grecaptcha.getResponse().length > 0;
+  // Track captcha state
+  let captchaPassed = false;
 
-    showErr(errEmail, !vEmail);
-    showErr(errUser, !vUser);
-    showErr(errType, !vType);
-    showErr(errSubj, !vSubj);
-    showErr(errMsg, !vMsg);
-
-    submitBtn.disabled = !(vEmail && vUser && vType && vSubj && vMsg && vCap);
-  }
-
-  [email, username, requestType, subject, message].forEach(inp => {
-    inp.addEventListener('input', valid);
-  });
-  requestType.addEventListener('change', valid);
-
-  window.recaptchaCallback = valid;
-  setInterval(valid, 1000);
-
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    loadingMsg.style.display = 'block';
-    submitBtn.disabled = true;
-
-    try {
-      const res = await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
-      });
-      loadingMsg.style.display = 'none';
-      if (res.ok) {
-        form.reset();
-        grecaptcha.reset();
-        thanksMsg.style.display = 'block';
-      } else {
-        throw new Error();
-      }
-    } catch {
-      loadingMsg.style.display = 'none';
-      alert('Submission error—please try again later.');
-    } finally {
-      valid();
+  // Show or hide error messages and aria-invalid attribute
+  function validateField(field, validator, errorEl) {
+    const valid = validator(field.value.trim());
+    if (!valid) {
+      errorEl.classList.add('error-visible');
+      field.setAttribute('aria-invalid', 'true');
+    } else {
+      errorEl.classList.remove('error-visible');
+      field.removeAttribute('aria-invalid');
     }
-  });
+    return valid;
+  }
 
-  valid();
+  // Check all validations and captcha to enable submit
+  function checkForm() {
+    const validEmail = validateField(email, isValidEmail, emailError);
+    const validUser = validateField(username, isValidUser, usernameError);
+    const validIssue = issue.value !== '';
+    const validPriority = priority.value !== '';
+    const validMessage = message.value.trim().length > 0;
+
+    if (validEmail && validUser && validIssue && validPriority && validMessage && captchaPassed) {
+      submitBtn.disabled = false;
+    } else {
+      submitBtn.disabled = true;
+    }
+  }
+
+  // Event listeners for inputs
+  [email, username, issue, priority, message].forEach(input =>
+    input.addEventListener('input', checkForm)
+  );
+
+  // reCAPTCHA callback for success
+  window.onCaptchaSuccess = function () {
+    captchaPassed = true;
+    checkForm();
+  };
+
+  // Optional: reset captcha state on expiration
+  window.onCaptchaExpired = function () {
+    captchaPassed = false;
+    checkForm();
+  };
+
+  // Form submit handler
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    loading.classList.add('status-visible');
+
+    // Send data via Formspree (fetch)
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json',
+      },
+    })
+      .then(response => {
+        loading.classList.remove('status-visible');
+        if (response.ok) {
+          thankYou.classList.add('status-visible');
+          form.reset();
+          submitBtn.disabled = true;
+          captchaPassed = false;
+          grecaptcha.reset();
+        } else {
+          alert('Oops! There was a problem submitting your request. Please try again.');
+          submitBtn.disabled = false;
+        }
+      })
+      .catch(() => {
+        loading.classList.remove('status-visible');
+        alert('Network error. Please check your connection and try again.');
+        submitBtn.disabled = false;
+      });
+  });
 });
