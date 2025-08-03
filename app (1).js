@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Validation functions
   const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   const isValidUser = (v) => /^@.+/.test(v);
-  let captchaPassed = false;
 
   function validateField(field, validator, errorEl) {
     const valid = validator(field.value.trim());
@@ -40,36 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const validMessage = message.value.trim() !== '';
     const validPriority = priority.value !== '';
 
-    if (!validSubject) {
-      subjectError.classList.add('error-visible');
-      subject.setAttribute('aria-invalid', 'true');
-    } else {
-      subjectError.classList.remove('error-visible');
-      subject.removeAttribute('aria-invalid');
-    }
+    subjectError.classList.toggle('error-visible', !validSubject);
+    subject.setAttribute('aria-invalid', !validSubject);
 
-    if (!validMessage) {
-      messageError.classList.add('error-visible');
-      message.setAttribute('aria-invalid', 'true');
-    } else {
-      messageError.classList.remove('error-visible');
-      message.removeAttribute('aria-invalid');
-    }
+    messageError.classList.toggle('error-visible', !validMessage);
+    message.setAttribute('aria-invalid', !validMessage);
 
-    submitBtn.disabled = !(validEmail && validUser && validIssue && validSubject && validPriority && validMessage && captchaPassed);
+    // Enable submit only if all are valid
+    submitBtn.disabled = !(validEmail && validUser && validIssue && validSubject && validPriority && validMessage);
   }
 
-  window.onCaptchaSuccess = () => {
-    captchaPassed = true;
-    checkForm();
-  };
-
-  window.onCaptchaExpired = () => {
-    captchaPassed = false;
-    checkForm();
-  };
-
-  // Validate on input and blur
   [email, username, issue, subject, priority, message].forEach((input) => {
     input.addEventListener('input', checkForm);
     input.addEventListener('blur', checkForm);
@@ -77,9 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+
     submitBtn.disabled = true;
     loading.classList.add('status-visible');
-    thankYou.classList.remove('status-visible');
 
     const formData = new FormData(form);
     fetch(form.action, {
@@ -93,8 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
           thankYou.classList.add('status-visible');
           form.reset();
           submitBtn.disabled = true;
-          captchaPassed = false;
-          grecaptcha.reset();
         } else {
           alert('Oops! There was a problem submitting your request. Please try again.');
           submitBtn.disabled = false;
@@ -107,5 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 
+  // Initial check to set button state on page load
   checkForm();
 });
