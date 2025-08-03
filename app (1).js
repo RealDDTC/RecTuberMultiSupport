@@ -16,14 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const subjectError = document.getElementById('subject-error');
   const messageError = document.getElementById('message-error');
 
-  // Validation regexes
-  const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const isValidEmail = (v) => /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v);
   const isValidUser = (v) => /^@.+/.test(v);
-
-  // Track whether CAPTCHA is completed
   let captchaPassed = false;
 
-  // Show or hide error messages and set aria-invalid
   function validateField(field, validator, errorEl) {
     const valid = validator(field.value.trim());
     if (!valid) {
@@ -36,85 +32,54 @@ document.addEventListener('DOMContentLoaded', () => {
     return valid;
   }
 
-  // Main form validation + captcha check
   function checkForm() {
     const validEmail = validateField(email, isValidEmail, emailError);
     const validUser = validateField(username, isValidUser, usernameError);
-    const validIssue = issue.value.trim() !== '';
-    const validSubject = subject.value.trim().length > 0;
-    const validMessage = message.value.trim().length > 0;
-    const validPriority = priority.value.trim() !== '';
+    const validIssue = issue.value !== '';
+    const validSubject = subject.value.trim() !== '';
+    const validMessage = message.value.trim() !== '';
+    const validPriority = priority.value !== '';
 
-    // Show/hide subject error
-    if (!validSubject) {
-      subjectError.classList.add('error-visible');
-      subject.setAttribute('aria-invalid', 'true');
-    } else {
-      subjectError.classList.remove('error-visible');
-      subject.removeAttribute('aria-invalid');
-    }
+    subjectError.classList.toggle('error-visible', !validSubject);
+    subject.setAttribute('aria-invalid', !validSubject);
 
-    // Show/hide message error
-    if (!validMessage) {
-      messageError.classList.add('error-visible');
-      message.setAttribute('aria-invalid', 'true');
-    } else {
-      messageError.classList.remove('error-visible');
-      message.removeAttribute('aria-invalid');
-    }
+    messageError.classList.toggle('error-visible', !validMessage);
+    message.setAttribute('aria-invalid', !validMessage);
 
-    // Enable submit button only if all valid and captcha passed
-    if (
-      validEmail &&
-      validUser &&
-      validIssue &&
-      validSubject &&
-      validPriority &&
-      validMessage &&
-      captchaPassed
-    ) {
-      submitBtn.disabled = false;
-    } else {
-      submitBtn.disabled = true;
-    }
+    submitBtn.disabled = !(validEmail && validUser && validIssue && validSubject && validPriority && validMessage && captchaPassed);
   }
 
-  // Called by reCAPTCHA on successful verification
-  window.onCaptchaSuccess = function () {
+  window.onCaptchaSuccess = () => {
     captchaPassed = true;
     checkForm();
   };
 
-  // Called by reCAPTCHA when it expires
-  window.onCaptchaExpired = function () {
+  window.onCaptchaExpired = () => {
     captchaPassed = false;
     checkForm();
   };
 
-  // Validate on user input
   [email, username, issue, subject, priority, message].forEach((input) => {
     input.addEventListener('input', checkForm);
     input.addEventListener('blur', checkForm);
   });
 
-  // “Check Form” button: forces a validation re-check, alerts if still invalid
   checkBtn.addEventListener('click', () => {
     checkForm();
     if (submitBtn.disabled) {
       alert(
-        'Please make sure:\n' +
-        '- Email is valid\n' +
-        '- Username starts with @\n' +
-        '- Request Type is selected\n' +
-        '- Subject is not empty\n' +
-        '- Priority is selected\n' +
-        '- Message is not empty\n' +
+        'Please make sure:\\n' +
+        '- Email is valid\\n' +
+        '- Username starts with @\\n' +
+        '- Request Type is selected\\n' +
+        '- Subject is not empty\\n' +
+        '- Priority is selected\\n' +
+        '- Message is not empty\\n' +
         '- CAPTCHA is verified'
       );
     }
   });
 
-  // Form submission handler
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     submitBtn.disabled = true;
@@ -146,6 +111,5 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   });
 
-  // Initial check
   checkForm();
 });
