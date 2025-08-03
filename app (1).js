@@ -1,89 +1,105 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('support-form');
-  const email = form.elements['email'];
-  const username = form.elements['username'];
-  const issue = form.elements['issue'];
-  const subject = form.elements['subject'];
-  const priority = form.elements['priority'];
-  const message = form.elements['message'];
   const submitBtn = document.getElementById('submit-btn');
-  const loading = document.getElementById('loading');
-  const thankYou = document.getElementById('thank-you');
 
-  const emailError = document.getElementById('email-error');
-  const usernameError = document.getElementById('username-error');
-  const subjectError = document.getElementById('subject-error');
-  const messageError = document.getElementById('message-error');
+  // All input/select/textarea fields to validate
+  const fields = {
+    email: form.elements['email'],
+    username: form.elements['username'],
+    issue: form.elements['issue'],
+    subject: form.elements['subject'],
+    priority: form.elements['priority'],
+    message: form.elements['message'],
+  };
 
-  // Validation functions
-  const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-  const isValidUser = (v) => /^@.+/.test(v);
+  const errors = {
+    email: document.getElementById('email-error'),
+    username: document.getElementById('username-error'),
+    issue: document.getElementById('issue-error'),
+    subject: document.getElementById('subject-error'),
+    priority: document.getElementById('priority-error'),
+    message: document.getElementById('message-error'),
+  };
 
-  function validateField(field, validator, errorEl) {
-    const valid = validator(field.value.trim());
+  // Validation regexes
+  const validators = {
+    email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
+    username: (v) => /^@.+/.test(v),
+    issue: (v) => v !== "",
+    subject: (v) => v.trim() !== "",
+    priority: (v) => v !== "",
+    message: (v) => v.trim() !== "",
+  };
+
+  function validateField(name) {
+    const value = fields[name].value.trim();
+    const valid = validators[name](value);
     if (!valid) {
-      errorEl.classList.add('error-visible');
-      field.setAttribute('aria-invalid', 'true');
+      errors[name].classList.add('error-visible');
+      fields[name].setAttribute('aria-invalid', 'true');
     } else {
-      errorEl.classList.remove('error-visible');
-      field.removeAttribute('aria-invalid');
+      errors[name].classList.remove('error-visible');
+      fields[name].removeAttribute('aria-invalid');
     }
     return valid;
   }
 
-  function checkForm() {
-    const validEmail = validateField(email, isValidEmail, emailError);
-    const validUser = validateField(username, isValidUser, usernameError);
-    const validIssue = issue.value !== '';
-    const validSubject = subject.value.trim() !== '';
-    const validMessage = message.value.trim() !== '';
-    const validPriority = priority.value !== '';
-
-    subjectError.classList.toggle('error-visible', !validSubject);
-    subject.setAttribute('aria-invalid', !validSubject);
-
-    messageError.classList.toggle('error-visible', !validMessage);
-    message.setAttribute('aria-invalid', !validMessage);
-
-    // Enable submit only if all are valid
-    submitBtn.disabled = !(validEmail && validUser && validIssue && validSubject && validPriority && validMessage);
+  function validateForm() {
+    let formIsValid = true;
+    for (const name in fields) {
+      if (!validateField(name)) {
+        formIsValid = false;
+      }
+    }
+    return formIsValid;
   }
 
-  [email, username, issue, subject, priority, message].forEach((input) => {
-    input.addEventListener('input', checkForm);
-    input.addEventListener('blur', checkForm);
-  });
+  // On input, hide error if valid now
+  for (const name in fields) {
+    fields[name].addEventListener('input', () => validateField(name));
+  }
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    submitBtn.disabled = true;
-    loading.classList.add('status-visible');
+    if (!validateForm()) {
+      // Focus the first invalid field for UX
+      for (const name in fields) {
+        if (fields[name].getAttribute('aria-invalid') === 'true') {
+          fields[name].focus();
+          break;
+        }
+      }
+      return;
+    }
+
+    // Show loading
+    document.getElementById('loading').classList.add('status-visible');
+    document.getElementById('thank-you').classList.remove('status-visible');
 
     const formData = new FormData(form);
+
     fetch(form.action, {
       method: 'POST',
       body: formData,
       headers: { Accept: 'application/json' },
     })
       .then((response) => {
-        loading.classList.remove('status-visible');
+        document.getElementById('loading').classList.remove('status-visible');
         if (response.ok) {
-          thankYou.classList.add('status-visible');
+          document.getElementById('thank-you').classList.add('status-visible');
           form.reset();
-          submitBtn.disabled = true;
+          // Reset captcha if you use it
+          if (window.grecaptcha) {
+            grecaptcha.reset();
+          }
         } else {
           alert('Oops! There was a problem submitting your request. Please try again.');
-          submitBtn.disabled = false;
         }
       })
       .catch(() => {
-        loading.classList.remove('status-visible');
+        document.getElementById('loading').classList.remove('status-visible');
         alert('Network error. Please check your connection and try again.');
-        submitBtn.disabled = false;
       });
   });
-
-  // Initial check to set button state on page load
-  checkForm();
 });
