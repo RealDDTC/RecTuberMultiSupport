@@ -1,149 +1,21 @@
-/* styles.css */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-  background: #eef2f7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  color: #222;
-}
-
-.support-wrapper {
-  background: #fff;
-  border-radius: 14px;
-  max-width: 650px;
-  width: 100%;
-  padding: 30px 40px;
-  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.08);
-  position: relative;
-}
-
-.support-header h1 {
-  color: #007bff;
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 5px;
-}
-
-.support-header p {
-  text-align: center;
-  font-size: 0.95rem;
-  color: #555;
-  margin-bottom: 25px;
-}
-
-.support-form .form-group {
-  margin-bottom: 18px;
-}
-
-label {
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-input, select, textarea {
-  width: 100%;
-  padding: 12px 15px;
-  margin-top: 6px;
-  font-size: 0.95rem;
-  border: 1.5px solid #ccc;
-  border-radius: 10px;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-input:focus, select:focus, textarea:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
-  outline: none;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 130px;
-}
-
-button[type="submit"] {
-  width: 100%;
-  background: #007bff;
-  color: #fff;
-  font-weight: 700;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  padding: 14px 0;
-  cursor: pointer;
-  transition: background 0.25s;
-}
-
-button[type="submit"]:hover {
-  background: #0056b3;
-}
-
-.error-message {
-  color: #d93025;
-  font-size: 0.85rem;
-  margin-top: 4px;
-  display: none;
-}
-
-.status-messages {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.status-message {
-  font-style: italic;
-  display: none;
-  font-size: 0.95rem;
-  color: #333;
-}
-
-.status-visible {
-  display: block;
-}
-
-.support-footer {
-  margin-top: 30px;
-  text-align: center;
-  font-size: 0.85rem;
-  color: #555;
-}
-
-.support-links a {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.support-links a:hover {
-  text-decoration: underline;
-}
-
-.version-label {
-  margin-top: 12px;
-  font-size: 0.8rem;
-  color: #888;
-}
-
-#file-list {
-  font-size: 0.85rem;
-  color: #555;
-  margin-top: 6px;
-}
-
-@media (max-width: 500px) {
-  .support-wrapper {
-    padding: 25px 20px;
-  }
-  .support-header h1 {
-    font-size: 1.6rem;
-  }
-}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background: #eef2f7; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; color: #222; }
+.support-wrapper { background: #fff; border-radius: 14px; max-width: 650px; width: 100%; padding: 30px 40px; box-shadow: 0 16px 35px rgba(0,0,0,0.08); position: relative; }
+.support-header h1 { color: #007bff; font-size: 2rem; text-align: center; margin-bottom: 5px; }
+.support-header p { text-align: center; font-size: 0.95rem; color: #555; margin-bottom: 25px; }
+.support-form .form-group { margin-bottom: 18px; }
+label { font-weight: 600; font-size: 0.95rem; }
+input, select, textarea { width: 100%; padding: 12px 15px; margin-top: 6px; font-size: 0.95rem; border: 1.5px solid #ccc; border-radius: 10px; transition: border-color 0.3s, box-shadow 0.3s; }
+input:focus, select:focus, textarea:focus { border-color: #007bff; box-shadow: 0 0 8px rgba(0,123,255,0.25); outline: none; }
+textarea { resize: vertical; min-height: 130px; }
+button[type="submit"] { width: 100%; background: #007bff; color: #fff; font-weight: 700; border: none; border-radius: 10px; font-size: 1rem; padding: 14px 0; cursor: pointer; transition: background 0.25s; }
+button[type="submit"]:hover { background: #0056b3; }
+.error-message { color: #d93025; font-size: 0.85rem; margin-top: 4px; display: none; }
+.status-messages { margin-top: 20px; text-align: center; }
+.status-message { font-style: italic; display: none; font-size: 0.95rem; color: #333; }
+.status-visible { display: block; }
+.support-footer { margin-top: 30px; text-align: center; font-size: 0.85rem; color: #555; }
+.support-links a { color: #007bff; text-decoration: none; font-weight: 600; }
+.support-links a:hover { text-decoration: underline; }
+#file-list { font-size: 0.85rem; color: #555; margin-top: 6px; }
+@media (max-width: 500px) { .support-wrapper { padding: 25px 20px; } .support-header h1 { font-size: 1.6rem; } }
