@@ -1,8 +1,11 @@
+// script.js
+
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('support-form');
   const submitBtn = document.getElementById('submit-btn');
+  const fileInput = document.getElementById('files');
+  const fileListDisplay = document.getElementById('file-list');
 
-  // All input/select/textarea fields to validate
   const fields = {
     email: form.elements['email'],
     username: form.elements['username'],
@@ -21,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
     message: document.getElementById('message-error'),
   };
 
-  // Validation regexes
   const validators = {
     email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
     username: (v) => /^@.+/.test(v),
@@ -35,35 +37,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const value = fields[name].value.trim();
     const valid = validators[name](value);
     if (!valid) {
-      errors[name].classList.add('error-visible');
+      errors[name].style.display = 'block';
       fields[name].setAttribute('aria-invalid', 'true');
     } else {
-      errors[name].classList.remove('error-visible');
+      errors[name].style.display = 'none';
       fields[name].removeAttribute('aria-invalid');
     }
     return valid;
   }
 
   function validateForm() {
-    let formIsValid = true;
+    let valid = true;
     for (const name in fields) {
-      if (!validateField(name)) {
-        formIsValid = false;
-      }
+      if (!validateField(name)) valid = false;
     }
-    return formIsValid;
+    return valid;
   }
 
-  // On input, hide error if valid now
   for (const name in fields) {
     fields[name].addEventListener('input', () => validateField(name));
   }
 
+  fileInput.addEventListener('change', () => {
+    const files = Array.from(fileInput.files);
+    fileListDisplay.innerHTML = files.map(f => `<div>${f.name}</div>`).join('');
+  });
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-
     if (!validateForm()) {
-      // Focus the first invalid field for UX
       for (const name in fields) {
         if (fields[name].getAttribute('aria-invalid') === 'true') {
           fields[name].focus();
@@ -73,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Show loading
     document.getElementById('loading').classList.add('status-visible');
     document.getElementById('thank-you').classList.remove('status-visible');
 
@@ -82,24 +83,22 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(form.action, {
       method: 'POST',
       body: formData,
-      headers: { Accept: 'application/json' },
+      headers: { Accept: 'application/json' }
     })
-      .then((response) => {
-        document.getElementById('loading').classList.remove('status-visible');
-        if (response.ok) {
-          document.getElementById('thank-you').classList.add('status-visible');
-          form.reset();
-          // Reset captcha if you use it
-          if (window.grecaptcha) {
-            grecaptcha.reset();
-          }
-        } else {
-          alert('Oops! There was a problem submitting your request. Please try again.');
-        }
-      })
-      .catch(() => {
-        document.getElementById('loading').classList.remove('status-visible');
-        alert('Network error. Please check your connection and try again.');
-      });
+    .then(response => {
+      document.getElementById('loading').classList.remove('status-visible');
+      if (response.ok) {
+        document.getElementById('thank-you').classList.add('status-visible');
+        form.reset();
+        fileListDisplay.innerHTML = '';
+        if (window.grecaptcha) grecaptcha.reset();
+      } else {
+        alert('Submission error. Try again.');
+      }
+    })
+    .catch(() => {
+      document.getElementById('loading').classList.remove('status-visible');
+      alert('Network error. Check your connection.');
+    });
   });
 });
