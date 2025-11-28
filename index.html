@@ -1,75 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RecTuberMultiShow Support</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="support-container">
-    <h1>RecTuberMultiShow Support</h1>
-    <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST" novalidate>
-      <label for="email">Your Email</label>
-      <input type="email" id="email" name="email" placeholder="you@example.com" required aria-describedby="email-error" />
-      <div id="email-error" class="error-message">Please enter a valid email address.</div>
+  <div class="support-wrapper">
+    <header class="support-header">
+      <h1>RecTuberMultiShow Support</h1>
+      <p>Get help or submit feedback quickly. We'll get back to you within 1–3 days.</p>
+    </header>
 
-      <label for="username">Rec Room Username (start with @)</label>
-      <input type="text" id="username" name="username" placeholder="@YourUsername" pattern="^@.+" title="Must start with @" required aria-describedby="username-error" />
-      <div id="username-error" class="error-message">Username must start with “@”.</div>
+    <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST" novalidate class="support-form">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+        <span class="error-message" id="email-error">Please enter a valid email.</span>
+      </div>
 
-      <label for="issue">Request Type</label>
-      <select id="issue" name="issue" required>
-        <option value="" disabled selected>Please choose a request type below</option>
-        <option value="Technical Support">Technical Support</option>
-        <option value="General Inquiry">General Inquiry</option>
-        <option value="Bug Report">Bug Report</option>
-        <option value="Feedback / Feature Request">Feedback / Feature Request</option>
-        <option value="Room Ban Appeal">Room Ban Appeal</option>
-      </select>
-      <div id="issue-error" class="error-message">Please select a request type.</div>
+      <div class="form-group">
+        <label for="username">Rec Room Username</label>
+        <input type="text" id="username" name="username" placeholder="@YourUsername" pattern="^@.+" required>
+        <span class="error-message" id="username-error">Must start with @.</span>
+      </div>
 
-      <label for="subject">Subject</label>
-      <input type="text" id="subject" name="subject" placeholder="Briefly summarize your request" required aria-describedby="subject-error" />
-      <div id="subject-error" class="error-message">Please enter a subject.</div>
+      <div class="form-group">
+        <label for="issue">Request Type</label>
+        <select id="issue" name="issue" required>
+          <option value="" disabled selected>Select request type</option>
+          <option value="Technical Support">Technical Support</option>
+          <option value="General Inquiry">General Inquiry</option>
+          <option value="Bug Report">Bug Report</option>
+          <option value="Feedback / Feature Request">Feedback / Feature Request</option>
+          <option value="Room Ban Appeal">Room Ban Appeal</option>
+        </select>
+        <span class="error-message" id="issue-error">Please select a request type.</span>
+      </div>
 
-      <label for="priority">Priority Level</label>
-      <select id="priority" name="priority" required>
-        <option value="" disabled selected>Select priority level</option>
-        <option value="Low">Low</option>
-        <option value="Medium">Medium</option>
-        <option value="High">High</option>
-        <option value="Urgent">Urgent</option>
-      </select>
-      <div id="priority-error" class="error-message">Please select a priority level.</div>
+      <div class="form-group">
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" placeholder="Short summary" required>
+        <span class="error-message" id="subject-error">Subject cannot be empty.</span>
+      </div>
 
-      <label for="message">Message</label>
-      <textarea id="message" name="message" rows="6" placeholder="Please describe your issue or question..." required aria-describedby="message-error"></textarea>
-      <div id="message-error" class="error-message">Message cannot be empty.</div>
+      <div class="form-group">
+        <label for="priority">Priority Level</label>
+        <select id="priority" name="priority" required>
+          <option value="" disabled selected>Select priority</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+          <option value="Urgent">Urgent</option>
+        </select>
+        <span class="error-message" id="priority-error">Please select priority.</span>
+      </div>
 
-      <label for="files">Attach Files (optional)</label>
-      <input type="file" id="files" name="files" multiple />
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" placeholder="Describe your issue..." required></textarea>
+        <span class="error-message" id="message-error">Message cannot be empty.</span>
+      </div>
 
-      <div class="g-recaptcha"
-           data-sitekey="6LfWqFArAAAAAFHhxFT6EmUHqVF_des5Z9xGw777"
-           data-callback="onCaptchaSuccess"
-           data-expired-callback="onCaptchaExpired"></div>
+      <div class="form-group">
+        <label for="files">Attach Files (optional)</label>
+        <input type="file" id="files" name="files" multiple>
+        <div id="file-list"></div>
+      </div>
 
-      <button type="submit" id="submit-btn">Submit</button>
+      <div class="captcha-wrapper">
+        <div class="g-recaptcha" data-sitekey="6LfWqFArAAAAAFHhxFT6EmUHqVF_des5Z9xGw777" data-callback="onCaptchaSuccess" data-expired-callback="onCaptchaExpired"></div>
+      </div>
+
+      <button type="submit" id="submit-btn">Submit Request</button>
     </form>
 
-    <div id="loading" class="status-message">Submitting your request…</div>
-    <div id="thank-you" class="status-message">Thanks! We’ve received your request and will be in touch within 1–3 days.</div>
-
-    <div class="support-links">
-      <p>Want to ask the community? <a href="https://github.com/orgs/community/discussions/160323" target="_blank" rel="noopener noreferrer">Join our GitHub Discussions</a></p>
-      <p>To report a player, <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank" rel="noopener noreferrer">click here</a>.</p>
-      <p>Visit the room: <a href="https://rec.net/room/RecTuberMultiShow" target="_blank" rel="noopener noreferrer">RecTuberMultiShow</a></p>
+    <div class="status-messages">
+      <div id="loading" class="status-message">Submitting…</div>
+      <div id="thank-you" class="status-message">Thanks! Your request has been received.</div>
     </div>
 
-    <div class="version-label">v2025.8.3</div>
+    <footer class="support-footer">
+      <div class="support-links">
+        <p>Ask the community: <a href="https://github.com/orgs/community/discussions/160323" target="_blank">GitHub Discussions</a></p>
+        <p>Report a player: <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank">Click Here</a></p>
+        <p>Visit the room: <a href="https://rec.net/room/RecTuberMultiShow" target="_blank">RecTuberMultiShow</a></p>
+      </div>
+      <div class="version-label">v2025-11-28</div>
+    </footer>
   </div>
 </body>
 </html>
