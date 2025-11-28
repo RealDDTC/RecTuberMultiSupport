@@ -1,79 +1,86 @@
+/* styles.css */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f0f4ff;
-  color: #222;
+  background: #eef2f7;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   min-height: 100vh;
   padding: 20px;
+  color: #222;
 }
 
-.support-container {
+.support-wrapper {
   background: #fff;
-  padding: 30px 40px 40px;
-  border-radius: 12px;
-  max-width: 600px;
+  border-radius: 14px;
+  max-width: 650px;
   width: 100%;
-  box-shadow: 0 12px 30px rgba(0, 123, 255, 0.15);
+  padding: 30px 40px;
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.08);
   position: relative;
 }
 
-h1 {
-  color: #0056b3;
+.support-header h1 {
+  color: #007bff;
   font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 20px;
   text-align: center;
+  margin-bottom: 5px;
+}
+
+.support-header p {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.support-form .form-group {
+  margin-bottom: 18px;
 }
 
 label {
-  display: block;
-  margin-top: 20px;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 0.95rem;
 }
 
 input, select, textarea {
   width: 100%;
-  margin-top: 8px;
-  padding: 12px 14px;
-  font-size: 15px;
-  border: 1.8px solid #ccc;
-  border-radius: 8px;
-  transition: border-color 0.3s ease;
-  font-family: inherit;
+  padding: 12px 15px;
+  margin-top: 6px;
+  font-size: 0.95rem;
+  border: 1.5px solid #ccc;
+  border-radius: 10px;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 input:focus, select:focus, textarea:focus {
-  border-color: #0056b3;
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
   outline: none;
-  box-shadow: 0 0 6px rgba(0, 86, 179, 0.25);
 }
 
 textarea {
   resize: vertical;
-  min-height: 120px;
-  line-height: 1.4;
+  min-height: 130px;
 }
 
 button[type="submit"] {
-  margin-top: 25px;
+  width: 100%;
   background: #007bff;
   color: #fff;
   font-weight: 700;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 10px;
+  font-size: 1rem;
   padding: 14px 0;
   cursor: pointer;
-  transition: background-color 0.25s ease;
+  transition: background 0.25s;
 }
 
 button[type="submit"]:hover {
@@ -81,65 +88,62 @@ button[type="submit"]:hover {
 }
 
 .error-message {
-  margin-top: 6px;
-  font-size: 13px;
   color: #d93025;
+  font-size: 0.85rem;
+  margin-top: 4px;
   display: none;
 }
 
-.error-visible {
-  display: block;
+.status-messages {
+  margin-top: 20px;
+  text-align: center;
 }
 
 .status-message {
-  margin-top: 20px;
   font-style: italic;
-  font-size: 16px;
-  text-align: center;
   display: none;
+  font-size: 0.95rem;
+  color: #333;
 }
 
 .status-visible {
   display: block;
 }
 
-.support-links {
-  margin-top: 35px;
-  font-size: 14px;
+.support-footer {
+  margin-top: 30px;
   text-align: center;
+  font-size: 0.85rem;
   color: #555;
 }
 
 .support-links a {
   color: #007bff;
-  font-weight: 600;
   text-decoration: none;
+  font-weight: 600;
 }
 
 .support-links a:hover {
   text-decoration: underline;
-  color: #004a99;
 }
 
 .version-label {
-  position: absolute;
-  bottom: 10px;
-  right: 20px;
-  font-size: 13px;
+  margin-top: 12px;
+  font-size: 0.8rem;
   color: #888;
-  font-weight: 500;
-  user-select: none;
 }
 
-@media (max-width: 480px) {
-  .support-container {
-    padding: 25px 20px 35px;
+#file-list {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 6px;
+}
+
+@media (max-width: 500px) {
+  .support-wrapper {
+    padding: 25px 20px;
   }
-  h1 {
+  .support-header h1 {
     font-size: 1.6rem;
-  }
-  button[type="submit"] {
-    font-size: 15px;
-    padding: 12px 0;
   }
 }
