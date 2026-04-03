@@ -1,22 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const shutdownDate = new Date('2026-06-01T00:00:00'); // June 1, 2026
+  const shutdownDate = new Date('2026-06-01T00:00:00');
   const now = new Date();
+  const formContainer = document.getElementById('support-form-container');
+  const shutdownNotice = document.getElementById('shutdown-notice');
 
-  if(now >= shutdownDate){
-    const wrapper = document.querySelector('.support-wrapper');
-    wrapper.innerHTML = `
-      <div class="support-header">
-        <h1>RecTuberMultiShow Support Closed</h1>
-        <p>As Rec Room officially shuts down on June 1, 2026, RecTuberMultiShow support has also closed.</p>
-        <p>We want to thank all creators, fans, and community members for your support and participation over the years.</p>
-        <p>Our <strong>final event</strong> was on May 31, 2026. Visit: https://rec.net/event/6501106448901981684</p>
-        <p>We appreciate every moment spent together, all creativity shared, and all memories made in this hub. Thank you for being part of this journey.</p>
-        <p style="margin-top:20px; font-size:0.9rem; color:#888;">v2026-4-3</p>
-      </div>
-    `;
-    return; // stop executing form JS
+  if (now >= shutdownDate) {
+    formContainer.style.display = 'none';
+    shutdownNotice.style.display = 'block';
   }
 
+  // Form code (validation + submission)
   const form = document.getElementById('support-form');
   const fileInput = document.getElementById('files');
   const fileListDisplay = document.getElementById('file-list');
