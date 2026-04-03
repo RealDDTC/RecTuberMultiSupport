@@ -1,18 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const shutdownDate = new Date('2026-06-01T00:00:00');
-  const now = new Date();
-  const formContainer = document.getElementById('support-form-container');
-  const shutdownNotice = document.getElementById('shutdown-notice');
-
-  if (now >= shutdownDate) {
-    formContainer.style.display = 'none';
-    shutdownNotice.style.display = 'block';
-  }
-
-  // Form code (validation + submission)
   const form = document.getElementById('support-form');
   const fileInput = document.getElementById('files');
   const fileListDisplay = document.getElementById('file-list');
+  const shutdownDate = new Date('2026-06-01T00:00:00');
+  const now = new Date();
+
+  // Show shutdown message if past date
+  if(now >= shutdownDate){
+    form.style.display = 'none';
+    document.getElementById('shutdown-msg').style.display = 'block';
+  }
 
   const fields = {
     email: form.elements['email'],
@@ -41,53 +38,48 @@ document.addEventListener('DOMContentLoaded', () => {
     message: v => v.trim() !== "",
   };
 
-  function validateField(name) {
+  function validateField(name){
     const value = fields[name].value.trim();
     const valid = validators[name](value);
-    if(!valid) { errors[name].style.display='block'; fields[name].setAttribute('aria-invalid','true'); }
+    if(!valid){ errors[name].style.display='block'; fields[name].setAttribute('aria-invalid','true'); }
     else { errors[name].style.display='none'; fields[name].removeAttribute('aria-invalid'); }
     return valid;
   }
 
-  function validateForm() {
+  function validateForm(){
     let valid = true;
-    for(const name in fields) {
-      if(!validateField(name)) valid = false;
-    }
+    for(const name in fields){ if(!validateField(name)) valid=false; }
     return valid;
   }
 
-  for(const name in fields) {
-    fields[name].addEventListener('input', () => validateField(name));
+  for(const name in fields){
+    fields[name].addEventListener('input',()=>validateField(name));
   }
 
-  fileInput.addEventListener('change', () => {
+  fileInput.addEventListener('change', ()=>{
     const files = Array.from(fileInput.files);
-    fileListDisplay.innerHTML = files.map(f => `<div>${f.name}</div>`).join('');
+    fileListDisplay.innerHTML = files.map(f=>`<div>${f.name}</div>`).join('');
   });
 
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', e=>{
     e.preventDefault();
     if(!validateForm()){
-      for(const name in fields){ 
-        if(fields[name].getAttribute('aria-invalid')==='true'){ fields[name].focus(); break; } 
-      }
+      for(const name in fields){ if(fields[name].getAttribute('aria-invalid')==='true'){ fields[name].focus(); break; } }
       return;
     }
-
     document.getElementById('loading').classList.add('status-visible');
     document.getElementById('thank-you').classList.remove('status-visible');
 
     const formData = new FormData(form);
-    fetch(form.action, { method:'POST', body: formData, headers:{ Accept:'application/json' }})
-      .then(response => {
+    fetch(form.action, {method:'POST', body:formData, headers:{Accept:'application/json'}})
+      .then(response=>{
         document.getElementById('loading').classList.remove('status-visible');
         if(response.ok){
           document.getElementById('thank-you').classList.add('status-visible');
           form.reset(); fileListDisplay.innerHTML='';
           if(window.grecaptcha) grecaptcha.reset();
-        } else { alert('Submission error. Try again.'); }
+        } else alert('Submission error. Try again.');
       })
-      .catch(()=>{ document.getElementById('loading').classList.remove('status-visible'); alert('Network error. Check your connection.'); });
+      .catch(()=>{ document.getElementById('loading').classList.remove('status-visible'); alert('Network error.'); });
   });
 });
