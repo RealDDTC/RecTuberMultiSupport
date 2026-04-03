@@ -16,7 +16,8 @@
   --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
 }
 
-html, body {
+html,
+body {
   min-height: 100%;
 }
 
@@ -152,7 +153,9 @@ body {
   color: #f8fbff;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(7, 13, 24, 0.6);
