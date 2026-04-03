@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const fileList = document.getElementById("file-list");
   const loading = document.getElementById("loading");
   const thankYou = document.getElementById("thank-you");
+  const captchaError = document.getElementById("captcha-error");
+  const submitBtn = document.getElementById("submit-btn");
 
   const fields = {
     email: document.getElementById("email"),
@@ -31,8 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
     username: value => /^@.+/.test(value),
     issue: value => value !== "",
     priority: value => value !== "",
-    subject: value => value.trim() !== "",
-    message: value => value.trim() !== "",
+    subject: value => value.trim().length >= 3,
+    message: value => value.trim().length >= 10,
   };
 
   function showClosedState() {
@@ -78,6 +80,14 @@ document.addEventListener("DOMContentLoaded", () => {
     return valid;
   }
 
+  function validateCaptcha() {
+    if (!window.grecaptcha) return true;
+    const response = grecaptcha.getResponse();
+    const ok = response && response.length > 0;
+    captchaError.style.display = ok ? "none" : "block";
+    return ok;
+  }
+
   if (checkShutdown()) return;
 
   Object.keys(fields).forEach(name => {
@@ -95,7 +105,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (checkShutdown()) return;
 
-    if (!validateForm()) {
+    const fieldsOk = validateForm();
+    const captchaOk = validateCaptcha();
+
+    if (!fieldsOk || !captchaOk) {
       const firstInvalid = Object.keys(fields).find(
         name => fields[name].getAttribute("aria-invalid") === "true"
       );
@@ -103,6 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
     loading.style.display = "block";
     thankYou.style.display = "none";
 
@@ -125,6 +140,10 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(() => {
         loading.style.display = "none";
         alert("Network error. Check your connection.");
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Request";
       });
   });
 });
