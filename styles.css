@@ -3,7 +3,17 @@ body { background: #eef2f7; display: flex; justify-content: center; align-items:
 
 .support-wrapper { background: #fff; border-radius: 14px; max-width: 650px; width: 100%; padding: 30px 40px; box-shadow: 0 16px 35px rgba(0,0,0,0.08); position: relative; }
 
-.shutdown-banner { background: linear-gradient(135deg, #ff4d4d, #b30000); color: white; padding: 14px; border-radius: 12px; text-align: center; font-weight: 700; margin-bottom: 20px; }
+.shutdown-banner {
+  background: linear-gradient(135deg, #ff4d4d, #b30000);
+  color: white;
+  padding: 18px 20px;
+  border-radius: 12px;
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
 
 .support-header h1 { color: #007bff; font-size: 2rem; text-align: center; margin-bottom: 5px; }
 .support-header p { text-align: center; font-size: 0.95rem; color: #555; margin-bottom: 25px; }
@@ -20,7 +30,7 @@ button:hover { background: #0056b3; }
 
 #file-list { font-size: 0.85rem; color: #555; margin-top: 6px; }
 
-.status-message { font-style: italic; display: none; font-size: 0.95rem; color: #333; margin-top: 12px; text-align: center; }
+.status-message { font-style: italic; display: none; font-size: 0.95rem; margin-top: 12px; text-align: center; }
 
 .shutdown-screen { display: none; text-align: center; padding: 60px 20px; }
 .shutdown-screen h1 { font-size: 2.2rem; color: #b30000; margin-bottom: 15px; }
