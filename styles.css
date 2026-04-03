@@ -1,17 +1,27 @@
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 body { background: #eef2f7; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; color: #222; }
-.support-wrapper { background: #fff; border-radius: 14px; max-width: 650px; width: 100%; padding: 30px 40px; box-shadow: 0 16px 35px rgba(0,0,0,0.08); }
+
+.support-wrapper { background: #fff; border-radius: 14px; max-width: 650px; width: 100%; padding: 30px 40px; box-shadow: 0 16px 35px rgba(0,0,0,0.08); position: relative; }
+
 .shutdown-banner { background: linear-gradient(135deg, #ff4d4d, #b30000); color: white; padding: 14px; border-radius: 12px; text-align: center; font-weight: 700; margin-bottom: 20px; }
+
 .support-header h1 { color: #007bff; font-size: 2rem; text-align: center; margin-bottom: 5px; }
 .support-header p { text-align: center; font-size: 0.95rem; color: #555; margin-bottom: 25px; }
+
 .form-group { margin-bottom: 18px; }
-label { font-weight: 600; }
+label { font-weight: 600; font-size: 0.95rem; }
 input, select, textarea { width: 100%; padding: 12px 15px; margin-top: 6px; font-size: 0.95rem; border: 1.5px solid #ccc; border-radius: 10px; }
 textarea { resize: vertical; min-height: 130px; }
+
 button { width: 100%; background: #007bff; color: #fff; font-weight: 700; border: none; border-radius: 10px; font-size: 1rem; padding: 14px 0; cursor: pointer; }
 button:hover { background: #0056b3; }
+
 .error-message { color: #d93025; font-size: 0.85rem; margin-top: 4px; display: none; }
+
 #file-list { font-size: 0.85rem; color: #555; margin-top: 6px; }
+
+.status-message { font-style: italic; display: none; font-size: 0.95rem; color: #333; margin-top: 12px; text-align: center; }
+
 .shutdown-screen { display: none; text-align: center; padding: 60px 20px; }
 .shutdown-screen h1 { font-size: 2.2rem; color: #b30000; margin-bottom: 15px; }
 .shutdown-screen p { color: #555; line-height: 1.6; }
