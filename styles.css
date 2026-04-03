@@ -1,33 +1,130 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-body { 
-  background: url('https://img.rec.net/8u5vqwa7zejzu4lrgatmjoj55.jpg?width=1920') center/cover no-repeat; 
-  display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; color: #222; 
-}
-.support-wrapper { 
-  background: rgba(255,255,255,0.95); border-radius: 16px; max-width: 700px; width: 100%; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); position: relative; 
-  overflow: hidden;
-}
-.shutdown-notice { 
-  background: #fffbf0; border: 2px solid #ffd700; padding: 20px; border-radius: 12px; margin-bottom: 30px; animation: fadeIn 1s ease-in-out; 
-}
-.shutdown-notice h1 { color: #d35400; margin-bottom: 10px; }
-.shutdown-notice p { font-size: 0.95rem; line-height: 1.6; color: #444; }
+document.addEventListener("DOMContentLoaded", () => {
+  const shutdownDate = new Date("2026-06-01T00:00:00-04:00");
+  const openState = document.getElementById("open-state");
+  const closedState = document.getElementById("closed-state");
+  const form = document.getElementById("support-form");
+  const fileInput = document.getElementById("files");
+  const fileList = document.getElementById("file-list");
+  const loading = document.getElementById("loading");
+  const thankYou = document.getElementById("thank-you");
 
-.support-form h1 { color: #007bff; font-size: 2rem; margin-bottom: 5px; text-align: center; }
-.support-form p { text-align: center; font-size: 1rem; color: #555; margin-bottom: 25px; }
-.form-group { margin-bottom: 18px; }
-label { font-weight: 600; font-size: 0.95rem; }
-input, select, textarea { width: 100%; padding: 12px 15px; margin-top: 6px; font-size: 0.95rem; border: 1.5px solid #ccc; border-radius: 10px; transition: border-color 0.3s, box-shadow 0.3s; }
-input:focus, select:focus, textarea:focus { border-color: #007bff; box-shadow: 0 0 8px rgba(0,123,255,0.25); outline: none; }
-textarea { resize: vertical; min-height: 130px; }
-button[type="submit"] { width: 100%; background: #007bff; color: #fff; font-weight: 700; border: none; border-radius: 10px; font-size: 1rem; padding: 14px 0; cursor: pointer; transition: background 0.25s; }
-button[type="submit"]:hover { background: #0056b3; }
-.error-message { color: #d93025; font-size: 0.85rem; margin-top: 4px; display: none; }
-.status-messages { margin-top: 20px; text-align: center; }
-.status-message { font-style: italic; display: none; font-size: 0.95rem; color: #333; }
-.status-visible { display: block; }
+  const fields = {
+    email: document.getElementById("email"),
+    username: document.getElementById("username"),
+    issue: document.getElementById("issue"),
+    priority: document.getElementById("priority"),
+    subject: document.getElementById("subject"),
+    message: document.getElementById("message"),
+  };
 
-@keyframes fadeIn { from { opacity:0; transform: translateY(-10px); } to { opacity:1; transform: translateY(0); } }
+  const errors = {
+    email: document.getElementById("email-error"),
+    username: document.getElementById("username-error"),
+    issue: document.getElementById("issue-error"),
+    priority: document.getElementById("priority-error"),
+    subject: document.getElementById("subject-error"),
+    message: document.getElementById("message-error"),
+  };
 
-#file-list { font-size: 0.85rem; color: #555; margin-top: 6px; }
-@media (max-width: 500px) { .support-wrapper { padding: 30px 20px; } .support-form h1 { font-size: 1.6rem; } }
+  const validators = {
+    email: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+    username: value => /^@.+/.test(value),
+    issue: value => value !== "",
+    priority: value => value !== "",
+    subject: value => value.trim() !== "",
+    message: value => value.trim() !== "",
+  };
+
+  function showClosedState() {
+    openState.hidden = true;
+    closedState.hidden = false;
+  }
+
+  function showOpenState() {
+    openState.hidden = false;
+    closedState.hidden = true;
+  }
+
+  function checkShutdown() {
+    const now = new Date();
+    if (now >= shutdownDate) {
+      showClosedState();
+      return true;
+    }
+    showOpenState();
+    return false;
+  }
+
+  function validateField(name) {
+    const value = fields[name].value.trim();
+    const valid = validators[name](value);
+
+    if (!valid) {
+      errors[name].style.display = "block";
+      fields[name].setAttribute("aria-invalid", "true");
+    } else {
+      errors[name].style.display = "none";
+      fields[name].removeAttribute("aria-invalid");
+    }
+
+    return valid;
+  }
+
+  function validateForm() {
+    let valid = true;
+    for (const name in fields) {
+      if (!validateField(name)) valid = false;
+    }
+    return valid;
+  }
+
+  if (checkShutdown()) return;
+
+  Object.keys(fields).forEach(name => {
+    fields[name].addEventListener("input", () => validateField(name));
+    fields[name].addEventListener("change", () => validateField(name));
+  });
+
+  fileInput.addEventListener("change", () => {
+    const files = Array.from(fileInput.files || []);
+    fileList.innerHTML = files.map(file => `<div>${file.name}</div>`).join("");
+  });
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+
+    if (checkShutdown()) return;
+
+    if (!validateForm()) {
+      const firstInvalid = Object.keys(fields).find(
+        name => fields[name].getAttribute("aria-invalid") === "true"
+      );
+      if (firstInvalid) fields[firstInvalid].focus();
+      return;
+    }
+
+    loading.style.display = "block";
+    thankYou.style.display = "none";
+
+    fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { Accept: "application/json" }
+    })
+      .then(response => {
+        loading.style.display = "none";
+        if (response.ok) {
+          thankYou.style.display = "block";
+          form.reset();
+          fileList.innerHTML = "";
+          if (window.grecaptcha) grecaptcha.reset();
+        } else {
+          alert("Submission error. Try again.");
+        }
+      })
+      .catch(() => {
+        loading.style.display = "none";
+        alert("Network error. Check your connection.");
+      });
+  });
+});
