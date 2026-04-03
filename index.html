@@ -1,126 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RecTuberMultiShow Support</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script defer src="script.js"></script>
 </head>
 <body>
-  <main class="page-shell">
-    <section class="card" id="open-state">
-      <div class="top-strip">
-        <span class="pill">Support</span>
-        <span class="pill pill-warn">Closing June 1, 2026</span>
+  <div class="support-wrapper">
+    <div class="shutdown-notice" id="shutdown-notice">
+      <h1>Important Notice</h1>
+      <p>The RecTuberMultiShow Support page will automatically close on June 1, 2026. After this date, no new tickets can be submitted. We appreciate your support over the years and thank everyone who has contributed to our community. Our final event will be May 31, 2026. Visit: rec.net/event/6501106448901981684</p>
+    </div>
+
+    <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST" novalidate class="support-form">
+      <h1>RecTuberMultiShow Support</h1>
+      <p>Submit your requests or report issues quickly and easily.</p>
+
+      <div class="form-group">
+        <label for="email">Your Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required aria-describedby="email-error">
+        <div id="email-error" class="error-message">Please enter a valid email address.</div>
       </div>
 
-      <header class="hero">
-        <h1>RecTuberMultiShow Support</h1>
-        <p>
-          Submit a request, report a bug, or send feedback before support closes.
-          Due to Rec Room shutting down on June 1, 2026, this support page will also shut down on that date.
-        </p>
-      </header>
-
-      <div class="notice">
-        <strong>Important:</strong> Our final event is on May 31, 2026.
-        Visit: https://rec.net/event/6501106448901981684
+      <div class="form-group">
+        <label for="username">Rec Room Username (start with @)</label>
+        <input type="text" id="username" name="username" placeholder="@YourUsername" pattern="^@.+" title="Must start with @" required aria-describedby="username-error">
+        <div id="username-error" class="error-message">Username must start with “@”.</div>
       </div>
 
-      <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST" novalidate>
-        <div class="grid">
-          <div class="field">
-            <label for="email">Your Email</label>
-            <input id="email" name="email" type="email" placeholder="you@example.com" />
-            <p class="error" id="email-error">Enter a valid email address.</p>
-          </div>
-
-          <div class="field">
-            <label for="username">Rec Room Username</label>
-            <input id="username" name="username" type="text" placeholder="@YourUsername" />
-            <p class="error" id="username-error">Username must start with @.</p>
-          </div>
-
-          <div class="field">
-            <label for="issue">Request Type</label>
-            <select id="issue" name="issue">
-              <option value="">Select a type</option>
-              <option value="Technical Support">Technical Support</option>
-              <option value="General Inquiry">General Inquiry</option>
-              <option value="Bug Report">Bug Report</option>
-              <option value="Feedback / Feature Request">Feedback / Feature Request</option>
-              <option value="Room Ban Appeal">Room Ban Appeal</option>
-            </select>
-            <p class="error" id="issue-error">Please choose a request type.</p>
-          </div>
-
-          <div class="field">
-            <label for="priority">Priority</label>
-            <select id="priority" name="priority">
-              <option value="">Select priority</option>
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
-              <option value="Urgent">Urgent</option>
-            </select>
-            <p class="error" id="priority-error">Please choose a priority level.</p>
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="subject">Subject</label>
-          <input id="subject" name="subject" type="text" placeholder="Brief summary of your issue" />
-          <p class="error" id="subject-error">Subject is required.</p>
-        </div>
-
-        <div class="field">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="6" placeholder="Tell us what happened..."></textarea>
-          <p class="error" id="message-error">Message is required.</p>
-        </div>
-
-        <div class="field">
-          <label for="files">Attach Files</label>
-          <input id="files" name="files" type="file" multiple />
-          <div id="file-list" class="file-list"></div>
-        </div>
-
-        <button type="submit" id="submit-btn">Submit Request</button>
-
-        <div class="status-wrap">
-          <p id="loading" class="status">Submitting your request…</p>
-          <p id="thank-you" class="status success">Thanks! We received your request.</p>
-        </div>
-      </form>
-
-      <footer class="footer">
-        <a href="https://github.com/orgs/community/discussions/160323" target="_blank" rel="noreferrer">Community Help</a>
-        <a href="https://recroom.zendesk.com/hc/en-us/requests/new" target="_blank" rel="noreferrer">Report a Player</a>
-        <a href="https://rec.net/room/RecTuberMultiShow" target="_blank" rel="noreferrer">Visit Room</a>
-        <span>v2026-4-3</span>
-      </footer>
-    </section>
-
-    <section class="card closed-card" id="closed-state" hidden>
-      <div class="closed-badge">Support Closed</div>
-      <h1>RecTuberMultiShow Support has shut down</h1>
-      <p>
-        Due to Rec Room shutting down on June 1, 2026, the RecTuberMultiShow Support page is no longer accepting requests.
-        This page has been permanently closed and the form is disabled.
-      </p>
-      <div class="closed-note">
-        <strong>Final Event:</strong> May 31, 2026<br />
-        https://rec.net/event/6501106448901981684
+      <div class="form-group">
+        <label for="issue">Request Type</label>
+        <select id="issue" name="issue" required>
+          <option value="" disabled selected>Please choose a request type</option>
+          <option value="Technical Support">Technical Support</option>
+          <option value="General Inquiry">General Inquiry</option>
+          <option value="Bug Report">Bug Report</option>
+          <option value="Feedback / Feature Request">Feedback / Feature Request</option>
+          <option value="Room Ban Appeal">Room Ban Appeal</option>
+        </select>
+        <div id="issue-error" class="error-message">Please select a request type.</div>
       </div>
-      <p class="thanks">
-        Thank you to everyone who created, supported, visited, and made memories here.
-        RecTuberMultiShow will always mean a lot to this community.
-      </p>
-      <div class="footer closed-footer">
-        <span>v2026-4-3</span>
+
+      <div class="form-group">
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" placeholder="Briefly summarize your request" required aria-describedby="subject-error">
+        <div id="subject-error" class="error-message">Please enter a subject.</div>
       </div>
-    </section>
-  </main>
+
+      <div class="form-group">
+        <label for="priority">Priority Level</label>
+        <select id="priority" name="priority" required>
+          <option value="" disabled selected>Select priority level</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+          <option value="Urgent">Urgent</option>
+        </select>
+        <div id="priority-error" class="error-message">Please select a priority level.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" placeholder="Please describe your issue or question..." required aria-describedby="message-error"></textarea>
+        <div id="message-error" class="error-message">Message cannot be empty.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="files">Attach Files (optional)</label>
+        <input type="file" id="files" name="files" multiple>
+        <div id="file-list"></div>
+      </div>
+
+      <div class="form-group">
+        <!-- CAPTCHA -->
+        <div class="g-recaptcha" data-sitekey="6LfWqFArAAAAAFHhxFT6EmUHqVF_des5Z9xGw777"></div>
+      </div>
+
+      <button type="submit" id="submit-btn">Submit</button>
+
+      <div class="status-messages">
+        <div id="loading" class="status-message">Submitting your request…</div>
+        <div id="thank-you" class="status-message">Thanks! We’ve received your request and will be in touch within 1–3 days.</div>
+      </div>
+    </form>
+  </div>
 </body>
 </html>
