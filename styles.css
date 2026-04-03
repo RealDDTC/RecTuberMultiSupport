@@ -1,130 +1,344 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const shutdownDate = new Date("2026-06-01T00:00:00-04:00");
-  const openState = document.getElementById("open-state");
-  const closedState = document.getElementById("closed-state");
-  const form = document.getElementById("support-form");
-  const fileInput = document.getElementById("files");
-  const fileList = document.getElementById("file-list");
-  const loading = document.getElementById("loading");
-  const thankYou = document.getElementById("thank-you");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  const fields = {
-    email: document.getElementById("email"),
-    username: document.getElementById("username"),
-    issue: document.getElementById("issue"),
-    priority: document.getElementById("priority"),
-    subject: document.getElementById("subject"),
-    message: document.getElementById("message"),
-  };
+:root {
+  --bg: #08111d;
+  --card: rgba(10, 18, 32, 0.72);
+  --line: rgba(255, 255, 255, 0.12);
+  --text: #f4f7fb;
+  --muted: rgba(244, 247, 251, 0.72);
+  --accent: #63d7ff;
+  --accent-2: #8b7bff;
+  --danger: #ff5f6d;
+  --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
 
-  const errors = {
-    email: document.getElementById("email-error"),
-    username: document.getElementById("username-error"),
-    issue: document.getElementById("issue-error"),
-    priority: document.getElementById("priority-error"),
-    subject: document.getElementById("subject-error"),
-    message: document.getElementById("message-error"),
-  };
+html, body {
+  min-height: 100%;
+}
 
-  const validators = {
-    email: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-    username: value => /^@.+/.test(value),
-    issue: value => value !== "",
-    priority: value => value !== "",
-    subject: value => value.trim() !== "",
-    message: value => value.trim() !== "",
-  };
+body {
+  font-family: Inter, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text);
+  background:
+    linear-gradient(180deg, rgba(4, 8, 16, 0.45), rgba(4, 8, 16, 0.78)),
+    url("https://img.rec.net/8u5vqwa7zejzu4lrgatmjoj55.jpg?width=1920") center/cover no-repeat fixed;
+}
 
-  function showClosedState() {
-    openState.hidden = true;
-    closedState.hidden = false;
+.page-shell {
+  min-height: 100vh;
+  padding: 28px;
+  display: grid;
+  place-items: center;
+}
+
+.card {
+  width: min(980px, 100%);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  overflow: hidden;
+  position: relative;
+  animation: rise 700ms ease both;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(99, 215, 255, 0.16), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(139, 123, 255, 0.14), transparent 34%);
+  pointer-events: none;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.top-strip {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 22px 24px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.pill-warn {
+  background: rgba(255, 95, 109, 0.12);
+  color: #ffd1d6;
+}
+
+.hero {
+  padding: 18px 24px 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.02;
+  margin-bottom: 12px;
+  letter-spacing: -0.04em;
+}
+
+.hero p {
+  color: var(--muted);
+  max-width: 72ch;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.notice {
+  margin: 10px 24px 22px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(99, 215, 255, 0.14), rgba(139, 123, 255, 0.12));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #eef8ff;
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+}
+
+#support-form {
+  padding: 0 24px 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.field label {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #f8fbff;
+}
+
+input, select, textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(7, 13, 24, 0.6);
+  color: var(--text);
+  padding: 14px 15px;
+  border-radius: 16px;
+  outline: none;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 160px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(244, 247, 251, 0.45);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(99, 215, 255, 0.8);
+  box-shadow: 0 0 0 4px rgba(99, 215, 255, 0.12);
+  background: rgba(7, 13, 24, 0.78);
+  transform: translateY(-1px);
+}
+
+.error {
+  display: none;
+  color: #ffd1d6;
+  font-size: 0.83rem;
+}
+
+.file-list {
+  margin-top: 8px;
+  display: grid;
+  gap: 6px;
+  color: rgba(244, 247, 251, 0.8);
+  font-size: 0.88rem;
+}
+
+#submit-btn {
+  width: 100%;
+  border: 0;
+  border-radius: 18px;
+  padding: 15px 18px;
+  margin-top: 6px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #06101c;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+  box-shadow: 0 12px 28px rgba(99, 215, 255, 0.2);
+}
+
+#submit-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 16px 34px rgba(99, 215, 255, 0.28);
+}
+
+.status-wrap {
+  padding-top: 12px;
+  min-height: 34px;
+}
+
+.status {
+  display: none;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.status.success {
+  color: #bfffd5;
+}
+
+.footer {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--muted);
+  position: relative;
+  z-index: 1;
+}
+
+.footer a {
+  color: #d8efff;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.closed-card {
+  padding: 28px;
+  text-align: left;
+}
+
+.closed-badge {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 95, 109, 0.14);
+  color: #ffd6db;
+  border: 1px solid rgba(255, 95, 109, 0.25);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 18px;
+}
+
+.closed-card h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.06;
+  margin-bottom: 14px;
+}
+
+.closed-card p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.closed-note {
+  margin: 18px 0;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(7, 13, 24, 0.45);
+  color: #f8fbff;
+  line-height: 1.6;
+}
+
+.thanks {
+  max-width: 72ch;
+}
+
+.closed-footer {
+  padding: 20px 0 0;
+  border-top: 0;
+}
+
+@media (max-width: 780px) {
+  .page-shell {
+    padding: 14px;
   }
 
-  function showOpenState() {
-    openState.hidden = false;
-    closedState.hidden = true;
+  .card {
+    border-radius: 24px;
   }
 
-  function checkShutdown() {
-    const now = new Date();
-    if (now >= shutdownDate) {
-      showClosedState();
-      return true;
-    }
-    showOpenState();
-    return false;
+  .grid {
+    grid-template-columns: 1fr;
   }
 
-  function validateField(name) {
-    const value = fields[name].value.trim();
-    const valid = validators[name](value);
-
-    if (!valid) {
-      errors[name].style.display = "block";
-      fields[name].setAttribute("aria-invalid", "true");
-    } else {
-      errors[name].style.display = "none";
-      fields[name].removeAttribute("aria-invalid");
-    }
-
-    return valid;
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  function validateForm() {
-    let valid = true;
-    for (const name in fields) {
-      if (!validateField(name)) valid = false;
-    }
-    return valid;
+  #support-form {
+    padding: 0 18px 18px;
   }
 
-  if (checkShutdown()) return;
+  .hero,
+  .notice,
+  .top-strip {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
 
-  Object.keys(fields).forEach(name => {
-    fields[name].addEventListener("input", () => validateField(name));
-    fields[name].addEventListener("change", () => validateField(name));
-  });
+  .notice {
+    margin-left: 18px;
+    margin-right: 18px;
+  }
 
-  fileInput.addEventListener("change", () => {
-    const files = Array.from(fileInput.files || []);
-    fileList.innerHTML = files.map(file => `<div>${file.name}</div>`).join("");
-  });
-
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-
-    if (checkShutdown()) return;
-
-    if (!validateForm()) {
-      const firstInvalid = Object.keys(fields).find(
-        name => fields[name].getAttribute("aria-invalid") === "true"
-      );
-      if (firstInvalid) fields[firstInvalid].focus();
-      return;
-    }
-
-    loading.style.display = "block";
-    thankYou.style.display = "none";
-
-    fetch(form.action, {
-      method: "POST",
-      body: new FormData(form),
-      headers: { Accept: "application/json" }
-    })
-      .then(response => {
-        loading.style.display = "none";
-        if (response.ok) {
-          thankYou.style.display = "block";
-          form.reset();
-          fileList.innerHTML = "";
-          if (window.grecaptcha) grecaptcha.reset();
-        } else {
-          alert("Submission error. Try again.");
-        }
-      })
-      .catch(() => {
-        loading.style.display = "none";
-        alert("Network error. Check your connection.");
-      });
-  });
-});
+  .closed-card {
+    padding: 22px;
+  }
+}
