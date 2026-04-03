@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const livePage = document.getElementById('live-page');
   const shutdownScreen = document.getElementById('shutdown-screen');
+  const shutdownBanner = document.getElementById('shutdown-banner');
   const form = document.getElementById('support-form');
   const fileInput = document.getElementById('files');
   const fileListDisplay = document.getElementById('file-list');
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Auto shutdown logic
   if (now >= shutdownDate) {
     livePage.style.display = 'none';
+    shutdownBanner.style.display = 'none';
     shutdownScreen.style.display = 'block';
     return;
   }
@@ -27,10 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', e => {
     e.preventDefault();
 
-    // Basic validation
     let valid = true;
     const email = form.email.value.trim();
     const username = form.username.value.trim();
+
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { valid = false; document.getElementById('email-error').style.display='block'; } else { document.getElementById('email-error').style.display='none'; }
     if (!/^@.+/.test(username)) { valid = false; document.getElementById('username-error').style.display='block'; } else { document.getElementById('username-error').style.display='none'; }
 
