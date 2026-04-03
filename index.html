@@ -33,19 +33,19 @@
         <div class="grid">
           <div class="field">
             <label for="email">Your Email</label>
-            <input id="email" name="email" type="email" placeholder="you@example.com" />
+            <input id="email" name="email" type="email" placeholder="you@example.com" required autocomplete="email" />
             <p class="error" id="email-error">Enter a valid email address.</p>
           </div>
 
           <div class="field">
             <label for="username">Rec Room Username</label>
-            <input id="username" name="username" type="text" placeholder="@YourUsername" />
+            <input id="username" name="username" type="text" placeholder="@YourUsername" required autocomplete="username" />
             <p class="error" id="username-error">Username must start with @.</p>
           </div>
 
           <div class="field">
             <label for="issue">Request Type</label>
-            <select id="issue" name="issue">
+            <select id="issue" name="issue" required>
               <option value="">Select a type</option>
               <option value="Technical Support">Technical Support</option>
               <option value="General Inquiry">General Inquiry</option>
@@ -58,7 +58,7 @@
 
           <div class="field">
             <label for="priority">Priority</label>
-            <select id="priority" name="priority">
+            <select id="priority" name="priority" required>
               <option value="">Select priority</option>
               <option value="Low">Low</option>
               <option value="Medium">Medium</option>
@@ -71,13 +71,13 @@
 
         <div class="field">
           <label for="subject">Subject</label>
-          <input id="subject" name="subject" type="text" placeholder="Brief summary of your issue" />
+          <input id="subject" name="subject" type="text" placeholder="Brief summary of your issue" required minlength="3" />
           <p class="error" id="subject-error">Subject is required.</p>
         </div>
 
         <div class="field">
           <label for="message">Message</label>
-          <textarea id="message" name="message" rows="6" placeholder="Tell us what happened..."></textarea>
+          <textarea id="message" name="message" rows="6" placeholder="Tell us what happened..." required minlength="10"></textarea>
           <p class="error" id="message-error">Message is required.</p>
         </div>
 
@@ -89,6 +89,7 @@
 
         <div class="field">
           <div class="g-recaptcha" data-sitekey="6LfWqFArAAAAAFHhxFT6EmUHqVF_des5Z9xGw777"></div>
+          <p class="error" id="captcha-error">Please complete the CAPTCHA.</p>
         </div>
 
         <button type="submit" id="submit-btn">Submit Request</button>
