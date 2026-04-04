@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const shutdownDate = new Date("2026-06-01T00:00:00-04:00");
+  const shutdownDate = new Date("2026-06-01T12:00:00-07:00");
   const openState = document.getElementById("open-state");
   const closedState = document.getElementById("closed-state");
   const form = document.getElementById("support-form");
@@ -28,12 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const validators = {
-    email: val => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim()),
-    username: val => /^@.+/.test(val.trim()),
-    issue: val => val.trim() !== "",
-    priority: val => val.trim() !== "",
-    subject: val => val.trim().length >= 3,
-    message: val => val.trim().length >= 10
+    email: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()),
+    username: value => /^@.+/.test(value.trim()),
+    issue: value => value.trim() !== "",
+    priority: value => value.trim() !== "",
+    subject: value => value.trim().length >= 3,
+    message: value => value.trim().length >= 10
   };
 
   function showClosedState() {
