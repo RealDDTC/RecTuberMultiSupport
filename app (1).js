@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const fileList = document.getElementById("file-list");
   const loading = document.getElementById("loading");
   const thankYou = document.getElementById("thank-you");
-  const captchaError = document.getElementById("captcha-error");
   const submitBtn = document.getElementById("submit-btn");
 
   const fields = {
@@ -16,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     issue: document.getElementById("issue"),
     priority: document.getElementById("priority"),
     subject: document.getElementById("subject"),
-    message: document.getElementById("message"),
+    message: document.getElementById("message")
   };
 
   const errors = {
@@ -25,16 +24,16 @@ document.addEventListener("DOMContentLoaded", () => {
     issue: document.getElementById("issue-error"),
     priority: document.getElementById("priority-error"),
     subject: document.getElementById("subject-error"),
-    message: document.getElementById("message-error"),
+    message: document.getElementById("message-error")
   };
 
   const validators = {
-    email: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-    username: value => /^@.+/.test(value),
-    issue: value => value !== "",
-    priority: value => value !== "",
-    subject: value => value.trim().length >= 3,
-    message: value => value.trim().length >= 10,
+    email: val => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim()),
+    username: val => /^@.+/.test(val.trim()),
+    issue: val => val.trim() !== "",
+    priority: val => val.trim() !== "",
+    subject: val => val.trim().length >= 3,
+    message: val => val.trim().length >= 10
   };
 
   function showClosedState() {
@@ -58,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function validateField(name) {
-    const value = fields[name].value.trim();
+    const value = fields[name].value;
     const valid = validators[name](value);
 
     if (!valid) {
@@ -80,19 +79,15 @@ document.addEventListener("DOMContentLoaded", () => {
     return valid;
   }
 
-  function validateCaptcha() {
-    if (!window.grecaptcha) return true;
-    const response = grecaptcha.getResponse();
-    const ok = response && response.length > 0;
-    captchaError.style.display = ok ? "none" : "block";
-    return ok;
+  function updateSubmitState() {
+    submitBtn.disabled = !validateForm();
   }
 
   if (checkShutdown()) return;
 
   Object.keys(fields).forEach(name => {
-    fields[name].addEventListener("input", () => validateField(name));
-    fields[name].addEventListener("change", () => validateField(name));
+    fields[name].addEventListener("input", updateSubmitState);
+    fields[name].addEventListener("change", updateSubmitState);
   });
 
   fileInput.addEventListener("change", () => {
@@ -100,21 +95,13 @@ document.addEventListener("DOMContentLoaded", () => {
     fileList.innerHTML = files.map(file => `<div>${file.name}</div>`).join("");
   });
 
+  updateSubmitState();
+
   form.addEventListener("submit", event => {
     event.preventDefault();
 
     if (checkShutdown()) return;
-
-    const fieldsOk = validateForm();
-    const captchaOk = validateCaptcha();
-
-    if (!fieldsOk || !captchaOk) {
-      const firstInvalid = Object.keys(fields).find(
-        name => fields[name].getAttribute("aria-invalid") === "true"
-      );
-      if (firstInvalid) fields[firstInvalid].focus();
-      return;
-    }
+    if (!validateForm()) return;
 
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting...";
@@ -142,8 +129,8 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Network error. Check your connection.");
       })
       .finally(() => {
-        submitBtn.disabled = false;
         submitBtn.textContent = "Submit Request";
+        updateSubmitState();
       });
   });
 });
