@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const fileList = document.getElementById("file-list");
   const loading = document.getElementById("loading");
   const thankYou = document.getElementById("thank-you");
-  const submitBtn = document.getElementById("submit-btn");
 
   const fields = {
     email: document.getElementById("email"),
@@ -41,18 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
     closedState.hidden = false;
   }
 
-  function showOpenState() {
-    openState.hidden = false;
-    closedState.hidden = true;
-  }
-
   function checkShutdown() {
     const now = new Date();
     if (now >= shutdownDate) {
       showClosedState();
       return true;
     }
-    showOpenState();
     return false;
   }
 
@@ -79,15 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return valid;
   }
 
-  function updateSubmitState() {
-    submitBtn.disabled = !validateForm();
-  }
-
   if (checkShutdown()) return;
 
   Object.keys(fields).forEach(name => {
-    fields[name].addEventListener("input", updateSubmitState);
-    fields[name].addEventListener("change", updateSubmitState);
+    fields[name].addEventListener("input", () => validateField(name));
+    fields[name].addEventListener("change", () => validateField(name));
   });
 
   fileInput.addEventListener("change", () => {
@@ -95,16 +84,12 @@ document.addEventListener("DOMContentLoaded", () => {
     fileList.innerHTML = files.map(file => `<div>${file.name}</div>`).join("");
   });
 
-  updateSubmitState();
-
   form.addEventListener("submit", event => {
     event.preventDefault();
 
     if (checkShutdown()) return;
     if (!validateForm()) return;
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Submitting...";
     loading.style.display = "block";
     thankYou.style.display = "none";
 
@@ -127,10 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(() => {
         loading.style.display = "none";
         alert("Network error. Check your connection.");
-      })
-      .finally(() => {
-        submitBtn.textContent = "Submit Request";
-        updateSubmitState();
       });
   });
 });
