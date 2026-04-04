@@ -7,7 +7,6 @@
 :root {
   --bg-dark: #07101a;
   --card: rgba(10, 16, 28, 0.72);
-  --card-strong: rgba(8, 13, 24, 0.92);
   --line: rgba(255, 255, 255, 0.12);
   --text: #f4f7fb;
   --muted: rgba(244, 247, 251, 0.72);
