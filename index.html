@@ -9,111 +9,108 @@
   <script defer src="script.js"></script>
 </head>
 <body>
-  <main class="shell">
-    <section class="card" id="open-state">
-      <div class="card-glow"></div>
+  <main class="page">
+    <section class="support-card" id="open-state">
+      <div class="accent-line"></div>
 
-      <div class="header">
-        <h1>RecTuberMultiShow Support</h1>
-        <p>
+      <header class="hero">
+        <div class="eyebrow">RecTuberMultiShow Support</div>
+        <h1>Support that feels clean, simple, and solid.</h1>
+        <p class="intro">
           Submit a request, report a bug, or send feedback before support closes.
-          Due to Rec Room shutting down on June 1, 2026, this support page will close on that date too.
+          Due to Rec Room shutting down on June 1, 2026, this support page will also close on that date.
         </p>
 
         <div class="notice">
           <strong>Final event:</strong> May 31, 2026<br />
           rec.net/event/6501106448901981684
         </div>
-      </div>
+      </header>
 
-      <section class="panel">
-        <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST" novalidate>
-          <div class="form-grid">
-            <div class="field">
-              <label for="email">Your Email</label>
-              <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" />
-              <div class="error-message" id="email-error">Please enter a valid email address.</div>
-            </div>
-
-            <div class="field">
-              <label for="username">Rec Room Username</label>
-              <input type="text" id="username" name="username" placeholder="@YourUsername" required autocomplete="username" />
-              <div class="error-message" id="username-error">Username must start with @.</div>
-            </div>
-
-            <div class="field">
-              <label for="issue">Request Type</label>
-              <select id="issue" name="issue" required>
-                <option value="" selected disabled>Select a type</option>
-                <option value="Technical Support">Technical Support</option>
-                <option value="General Inquiry">General Inquiry</option>
-                <option value="Bug Report">Bug Report</option>
-                <option value="Feedback / Feature Request">Feedback / Feature Request</option>
-                <option value="Room Ban Appeal">Room Ban Appeal</option>
-              </select>
-              <div class="error-message" id="issue-error">Please select a request type.</div>
-            </div>
-
-            <div class="field">
-              <label for="priority">Priority Level</label>
-              <select id="priority" name="priority" required>
-                <option value="" selected disabled>Select priority</option>
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-                <option value="Urgent">Urgent</option>
-              </select>
-              <div class="error-message" id="priority-error">Please select a priority.</div>
-            </div>
+      <form id="support-form" action="https://formspree.io/f/xkgnalkk" method="POST">
+        <div class="grid">
+          <div class="field">
+            <label for="email">Your Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" />
           </div>
 
           <div class="field">
-            <label for="subject">Subject</label>
-            <input
-              type="text"
-              id="subject"
-              name="subject"
-              placeholder="Brief summary of your issue"
-              required
-              minlength="3"
-            />
-            <div class="error-message" id="subject-error">Subject must be at least 3 characters.</div>
+            <label for="username">Rec Room Username</label>
+            <input type="text" id="username" name="username" placeholder="@YourUsername" required autocomplete="username" />
           </div>
 
           <div class="field">
-            <label for="message">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              rows="7"
-              placeholder="Tell us exactly what happened..."
-              required
-              minlength="10"
-            ></textarea>
-            <div class="error-message" id="message-error">Message must be at least 10 characters.</div>
+            <label for="issue">Request Type</label>
+            <select id="issue" name="issue" required>
+              <option value="" selected disabled>Select a type</option>
+              <option value="Technical Support">Technical Support</option>
+              <option value="General Inquiry">General Inquiry</option>
+              <option value="Bug Report">Bug Report</option>
+              <option value="Feedback / Feature Request">Feedback / Feature Request</option>
+              <option value="Room Ban Appeal">Room Ban Appeal</option>
+            </select>
           </div>
 
           <div class="field">
-            <label for="files">Attach Files (optional)</label>
-            <input type="file" id="files" name="files" multiple />
-            <div id="file-list" class="file-list"></div>
+            <label for="priority">Priority Level</label>
+            <select id="priority" name="priority" required>
+              <option value="" selected disabled>Select priority</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+              <option value="Urgent">Urgent</option>
+            </select>
           </div>
+        </div>
 
-          <div class="field captcha-field">
-            <div class="g-recaptcha" data-sitekey="6LfWqFArAAAAAFHhxFT6EmUHqVF_des5Z9xGw777"></div>
-          </div>
+        <div class="field">
+          <label for="subject">Subject</label>
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            placeholder="Brief summary of your issue"
+            required
+            minlength="3"
+          />
+        </div>
 
-          <button type="submit" id="submit-btn">Submit Request</button>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="7"
+            placeholder="Tell us exactly what happened..."
+            required
+            minlength="10"
+          ></textarea>
+        </div>
 
-          <div class="status-wrap">
-            <p id="loading" class="status">Submitting your request…</p>
-            <p id="thank-you" class="status success">Thanks! We received your request.</p>
-          </div>
-        </form>
-      </section>
+        <div class="field">
+          <label for="files">Attach Files (optional)</label>
+          <input type="file" id="files" name="files" multiple />
+          <div id="file-list" class="file-list"></div>
+        </div>
+
+        <div class="field captcha">
+          <div class="g-recaptcha" data-sitekey="6LfWqFArAAAAAFHhxFT6EmUHqVF_des5Z9xGw777"></div>
+        </div>
+
+        <button type="submit" id="submit-btn">Submit Request</button>
+
+        <div class="status-wrap">
+          <p id="loading" class="status">Submitting your request…</p>
+          <p id="thank-you" class="status success">Thanks! We received your request.</p>
+        </div>
+      </form>
+
+      <footer class="footer">
+        <span>v2026-4-4</span>
+      </footer>
     </section>
 
-    <section class="card closed-card" id="closed-state" hidden>
+    <section class="support-card closed-card" id="closed-state" hidden>
       <div class="closed-badge">Support Closed</div>
       <h1>RecTuberMultiShow Support has shut down</h1>
       <p>
@@ -128,7 +125,7 @@
         Thank you to everyone who created, supported, visited, and made memories here.
         RecTuberMultiShow will always mean a lot to this community.
       </p>
-      <div class="closed-footer">
+      <div class="footer">
         <span>v2026-4-4</span>
       </div>
     </section>
