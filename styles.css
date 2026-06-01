@@ -5,11 +5,10 @@
 }
 
 :root {
-  --bg: #06111d;
   --card: rgba(11, 18, 30, 0.72);
   --line: rgba(255, 255, 255, 0.12);
   --text: #f4f7fb;
-  --muted: rgba(244, 247, 251, 0.72);
+  --muted: rgba(244, 247, 251, 0.76);
   --accent: #63d7ff;
   --accent-2: #8b7bff;
   --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
@@ -23,15 +22,9 @@ body {
 body {
   font-family: Inter, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text);
-
   background:
-    linear-gradient(
-      180deg,
-      rgba(4, 8, 16, 0.45),
-      rgba(4, 8, 16, 0.82)
-    ),
-    url("https://img.rec.net/8u5vqwa7zejzu4lrgatmjoj55.jpg?width=1920")
-    center/cover no-repeat fixed;
+    linear-gradient(180deg, rgba(4, 8, 16, 0.45), rgba(4, 8, 16, 0.82)),
+    url("https://img.rec.net/8u5vqwa7zejzu4lrgatmjoj55.jpg?width=1920") center/cover no-repeat fixed;
 }
 
 .page {
@@ -42,7 +35,7 @@ body {
 }
 
 .support-card {
-  width: min(1000px, 100%);
+  width: min(1100px, 100%);
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: 30px;
@@ -58,31 +51,15 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-
   background:
-    radial-gradient(
-      circle at top left,
-      rgba(99, 215, 255, 0.16),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at bottom right,
-      rgba(139, 123, 255, 0.14),
-      transparent 30%
-    );
-
+    radial-gradient(circle at top left, rgba(99, 215, 255, 0.16), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(139, 123, 255, 0.14), transparent 30%);
   pointer-events: none;
 }
 
 .accent-line {
   height: 4px;
-
-  background:
-    linear-gradient(
-      90deg,
-      var(--accent),
-      var(--accent-2)
-    );
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
 }
 
 @keyframes rise {
@@ -90,7 +67,6 @@ body {
     opacity: 0;
     transform: translateY(20px) scale(0.985);
   }
-
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -98,136 +74,58 @@ body {
 }
 
 .hero {
-  padding: 34px 28px 22px;
+  padding: 34px 28px 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .eyebrow {
   display: inline-block;
-
   padding: 8px 12px;
-
   border-radius: 999px;
-
   background: rgba(255, 255, 255, 0.08);
-
   border: 1px solid rgba(255, 255, 255, 0.12);
-
   color: #eaf7ff;
-
   font-size: 0.8rem;
-
   letter-spacing: 0.05em;
-
   text-transform: uppercase;
-
   margin-bottom: 18px;
 }
 
 .hero h1 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-
-  line-height: 1.05;
-
-  letter-spacing: -0.05em;
-
-  margin-bottom: 14px;
+  font-size: clamp(2.1rem, 4.8vw, 4.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.06em;
+  margin-bottom: 8px;
 }
 
-.intro {
+.giant-message {
+  padding: 0 28px 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.giant-message p {
   color: var(--muted);
-
-  line-height: 1.7;
-
-  font-size: 1rem;
-}
-
-.closed-card {
-  padding-bottom: 0;
-}
-
-.closed-badge {
-  display: inline-block;
-
-  margin: 28px 28px 18px;
-
-  padding: 8px 12px;
-
-  border-radius: 999px;
-
-  background: rgba(99, 215, 255, 0.14);
-
-  color: #dff7ff;
-
-  border: 1px solid rgba(99, 215, 255, 0.25);
-
-  font-size: 0.8rem;
-
-  text-transform: uppercase;
-
-  letter-spacing: 0.05em;
-}
-
-.closed-card h1,
-.closed-card p,
-.closed-note,
-.thanks {
-  margin-left: 28px;
-  margin-right: 28px;
-}
-
-.closed-card h1 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-
-  line-height: 1.05;
-
-  margin-bottom: 16px;
-
-  letter-spacing: -0.05em;
-}
-
-.closed-card p {
-  color: var(--muted);
-
-  line-height: 1.75;
-
+  line-height: 1.85;
+  font-size: 1.06rem;
+  max-width: 78ch;
   margin-bottom: 18px;
-
-  max-width: 72ch;
 }
 
-.closed-note {
-  margin-top: 20px;
-  margin-bottom: 22px;
-
-  padding: 20px;
-
-  border-radius: 18px;
-
-  border: 1px solid rgba(255, 255, 255, 0.12);
-
-  background: rgba(7, 13, 24, 0.45);
-
-  color: #f8fbff;
-
-  line-height: 1.6;
-
-  max-width: 72ch;
-}
-
-.thanks {
-  padding-bottom: 10px;
+.giant-message strong {
+  color: var(--text);
 }
 
 .footer {
   padding: 20px 28px 24px;
-
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-
   color: rgba(244, 247, 251, 0.55);
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 720px) {
-
   .page {
     padding: 14px;
   }
@@ -236,15 +134,8 @@ body {
     border-radius: 24px;
   }
 
-  .closed-badge,
-  .closed-card h1,
-  .closed-card p,
-  .closed-note,
-  .thanks {
-    margin-left: 18px;
-    margin-right: 18px;
-  }
-
+  .hero,
+  .giant-message,
   .footer {
     padding-left: 18px;
     padding-right: 18px;
